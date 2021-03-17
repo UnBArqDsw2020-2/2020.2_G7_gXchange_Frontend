@@ -1,46 +1,82 @@
-# Getting Started with Create React App
+# gXchange
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+**Código da Disciplina**: FGA0208<br>
+**Número do Grupo**: 07<br>
 
-## Available Scripts
+## Alunos
 
-In the project directory, you can run:
+| Matrícula | Aluno |
+| -- | -- |
+| 18/0018728  |  Igor Batista Paiva |
+| 18/0054082  |  Marcelo Victor de Sousa Silva |
+| 18/0054848  |  Rhuan Carlos Pereira de Queiroz |
+| 18/0028260  |  Thiago Aparecido Lopes Santos |
+| 18/0028308  |  Thiago Guilherme Muniz Ferreira |
+| 18/0029223  |  Washington Bispo Arishita Junior |
 
-### `yarn start`
+## Sobre
+Este repositório é destinado ao grupo 7 - [**gXchange**](https://github.com/UnBArqDsw2020-2/2020.2_G7_gXchange_DOCS), contém toda a documentação do projeto da disciplina de Arquitetura e Desenho de Software, ministrada pela professora Milene Serrano, na Universidade de Brasília - Gama, durante o período de 2020/2.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Screenshots Primeira Entrega <<FOCO: DSW(Base)>>
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+![design_sprint](https://raw.githubusercontent.com/UnBArqDsw2020-2/2020.2_G7_gXchange_DOCS/develop/docs/assets/screenshots/entrega_1/design_sprint.png)
 
-### `yarn test`
+![requisitos](https://raw.githubusercontent.com/UnBArqDsw2020-2/2020.2_G7_gXchange_DOCS/develop/docs/assets/screenshots/entrega_1/requisitos.png)
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+![bpmn](https://raw.githubusercontent.com/UnBArqDsw2020-2/2020.2_G7_gXchange_DOCS/develop/docs/assets/screenshots/entrega_1/bpmn.png)
 
-### `yarn build`
+## Vídeo(s) Primeira Entrega <<FOCO: DSW(Base)>>
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Desenho de Software (Base):
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+#### 1.1 - [Módulo Projeto Não Orientado a Abordagens Específicas](https://youtu.be/Jo4Rm84yUq0)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+#### 1.2 - [Módulo Processos / Metodologias / Abordagens](https://youtu.be/48xTzKhKb_Y)
 
-### `yarn eject`
+## Screenshots Segunda Entrega <<FOCO: DSW(Modelagem)>>
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+![Diagrama componentes](https://raw.githubusercontent.com/UnBArqDsw2020-2/2020.2_G7_gXchange_DOCS/develop/docs/assets/screenshots/entrega_2/diagrama_componentes.png)
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+![Diagrama sequência](https://raw.githubusercontent.com/UnBArqDsw2020-2/2020.2_G7_gXchange_DOCS/develop/docs/assets/screenshots/entrega_2/diagrama_sequencia.png)
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+![Backlog de produto](https://raw.githubusercontent.com/UnBArqDsw2020-2/2020.2_G7_gXchange_DOCS/develop/docs/assets/screenshots/entrega_2/backlog_produto.png)
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+## Vídeo(s) Segunda Entrega <<FOCO: DSW(Modelagem)>>
 
-## Learn More
+### Desenho de Software (modelagem):
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+#### 2.1 Módulo Projeto Orientado a Abordagens Tradicionais
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+##### 2.1.1 - [Notação UML – Diagramas Estáticos](https://youtu.be/zOOK5ZxOAwA)
+
+##### 2.1.2 - [Notação UML – Diagramas Dinâmicos](https://youtu.be/_iZWiHMbcMY)
+
+##### 2.1.3 - [Modelagem ágil](https://youtu.be/JOU-X-XP3X0)
+
+## Screenshots Terceira Entrega <<FOCO: DSW(Padrões de Projeto)>>
+Aqui serão adicionados 2 ou mais screenshots do projeto em termos de artefatos da Terceira Entrega.
+
+## Vídeo(s) Terceira Entrega <<FOCO: DSW(Padrões de Projeto)>>
+Aqui serão adicionados o(s) vídeo(s) da Terceira Entrega.
+
+## Screenshots Quarta Entrega (FINAL) <<FOCOS: Arquitetura & Reutilização de Software & PROJETO FINAL>>
+Aqui serão adicionados 2 ou mais screenshots do projeto em termos de interface e/ou funcionamento.
+
+## Vídeo(s) Quarta Entrega (FINAL) <<FOCOS: Arquitetura & Reutilização de Software & PROJETO FINAL>>
+Aqui serão adicionados o(s) vídeo(s) da Entrega Final.
+
+## Descritivo dos Principais Aspectos Técnicos
+
+**Principal(is) Metodologia(s) Adotada(s)**: Scrum e XP<br>
+**Principais Linguagens Utilizadas e/ou Pretendidas**: Python e Typescript<br>
+**Principais Tecnologias Utilizadas e/ou Pretendidas**: Django e React<br>
+**Principal(is) Estilo(s) Arquitetural(is) Adotado(s)**:<br>
+
+## O Projeto está rodando?
+
+( ) SIM
+(X) NÃO
+
+## Informações Complementares 
+
+No momento não há informações complementares.
