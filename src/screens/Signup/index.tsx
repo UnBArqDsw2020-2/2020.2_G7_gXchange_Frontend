@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router';
 import { MdAddAPhoto } from 'react-icons/md';
-import { CircularProgress } from '@material-ui/core';
 
 import {
   SubmitBtn,
@@ -97,85 +96,77 @@ const Signup: React.FC = () => {
         <MdAddAPhoto size="32" color="var(--white)" />
       </ProfileImageContainer>
 
-      {loading ? (
-        <CircularProgress
-          style={{
-            marginTop: '30px',
-          }}
+      <FormContainer>
+        <TextInput
+          value={name}
+          disabled={loading}
+          variant="outlined"
+          label="Nome Completo"
+          placeholder="Digite o nome"
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            setName(e.target.value)
+          }
         />
-      ) : (
-        <FormContainer>
-          <TextInput
-            value={name}
-            disabled={loading}
-            variant="outlined"
-            label="Nome Completo"
-            placeholder="Digite o nome"
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              setName(e.target.value)
-            }
-          />
 
-          <TextInput
-            value={nickname}
-            disabled={loading}
-            variant="outlined"
-            label="Nome de usuário (Apelido)"
-            placeholder="Digite o nome de usuário"
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              setNickname(e.target.value)
-            }
-          />
+        <TextInput
+          value={nickname}
+          disabled={loading}
+          variant="outlined"
+          label="Nome de usuário (Apelido)"
+          placeholder="Digite o nome de usuário"
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            setNickname(e.target.value)
+          }
+        />
 
-          <TextInput
-            label="Email"
-            value={email}
-            disabled={loading}
-            variant="outlined"
-            placeholder="Digite o email"
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              setEmail(e.target.value)
-            }
-          />
+        <TextInput
+          label="Email"
+          value={email}
+          disabled={loading}
+          variant="outlined"
+          placeholder="Digite o email"
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            setEmail(e.target.value)
+          }
+        />
 
-          <TextInput
-            value={phone}
-            label="Telefone"
-            disabled={loading}
-            variant="outlined"
-            placeholder="Digite o telefone"
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              setPhone(e.target.value)
-            }
-          />
+        <TextInput
+          value={phone}
+          label="Telefone"
+          disabled={loading}
+          variant="outlined"
+          placeholder="Digite o telefone"
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            setPhone(e.target.value)
+          }
+        />
 
-          <TextInput
-            label="Senha"
-            type="password"
-            value={password}
-            variant="outlined"
-            disabled={loading}
-            placeholder="Digite uma senha"
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              setPassword(e.target.value)
-            }
-          />
+        <TextInput
+          label="Senha"
+          type="password"
+          value={password}
+          variant="outlined"
+          disabled={loading}
+          placeholder="Digite uma senha"
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            setPassword(e.target.value)
+          }
+        />
 
-          <TextInput
-            type="password"
-            variant="outlined"
-            disabled={loading}
-            label="Senha repetida"
-            value={passwordConfirmation}
-            placeholder="Confirme sua senha"
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              setPasswordConfirmation(e.target.value)
-            }
-          />
+        <TextInput
+          type="password"
+          variant="outlined"
+          disabled={loading}
+          label="Senha repetida"
+          value={passwordConfirmation}
+          placeholder="Confirme sua senha"
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            setPasswordConfirmation(e.target.value)
+          }
+        />
 
-          <SubmitBtn onClick={send}>CADASTRAR</SubmitBtn>
-        </FormContainer>
-      )}
+        <SubmitBtn onClick={send}>CADASTRAR</SubmitBtn>
+      </FormContainer>
     </Container>
   );
 };
