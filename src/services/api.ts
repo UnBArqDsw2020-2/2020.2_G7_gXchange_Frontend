@@ -19,7 +19,7 @@ export default class APIAdapter {
   async get(path: string, config?: AxiosRequestConfig) {
     const res = await this.instance.get(path, config);
 
-    return res.data ? res.data : res;
+    return res.data.results || res;
   }
 
   async post(
@@ -29,7 +29,7 @@ export default class APIAdapter {
   ) {
     const res = await this.instance.post(path, data, config);
 
-    return res.data ? res.data : res;
+    return res.data.results || res;
   }
 
   async patch(
@@ -39,12 +39,12 @@ export default class APIAdapter {
   ) {
     const res = await this.instance.patch(path, data, config);
 
-    return res.data ? res.data : res;
+    return res.data.results || res;
   }
 
   async delete(path: string, config?: AxiosRequestConfig) {
     const res = await this.instance.delete(path, config);
 
-    return res.data ? res.data : res;
+    return res.data.results || res;
   }
 }
