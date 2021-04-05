@@ -3,22 +3,14 @@ name: Lint Code Base
 on: push
 
 jobs:
-  build:
-    name: Lint Code Base
+  check-eslint:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-
-      - name: Lint Code Base
-        uses: github/super-linter@v3
-        env:
-          LINTER_RULES_PATH: /
-          DEFAULT_BRANCH: main
-          VALIDATE_MARKDOWN: false
-          VALIDATE_ALL_CODEBASE: false
-          JAVASCRIPT_ES_CONFIG_FILE: .eslintrc.json
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+      - run: yarn
+      - run: npm install -g eslint
+      - run: eslint . --ext .js,.jsx,.ts,.tsx
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
