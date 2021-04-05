@@ -1,10 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
-import env from 'react-dotenv';
 
-const CONFIG = {
-  timeout: env.GXCHANGE_TIMEOUT,
-  baseURL: `${env.GXCHANGE_API_URL}/app/`,
+const CONFIG: AxiosRequestConfig = {
+  timeout: parseInt(process.env.REACT_APP_GXCHANGE_TIMEOUT || '5000', 10),
+  baseURL: `${process.env.REACT_APP_GXCHANGE_API_URL}/app/`,
   headers: {
     Accept: 'application/json',
   },
