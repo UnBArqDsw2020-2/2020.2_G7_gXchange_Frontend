@@ -26,7 +26,7 @@ export const GlobalModalSlice = createSlice({
         ...action.payload,
       };
     },
-    closeModal(state: IGlobalModal) {
+    closeModal(state) {
       state.open = false;
     },
   },
