@@ -15,26 +15,39 @@ import APIAdapter from '../../services/api';
 import TextInput from '../../components/TextInput';
 import { openModal } from '../../store/GlobalModal';
 
+const isStrInvalid = (value: string | null | undefined) => !value;
+
 const EditUser: React.FC = () => {
   const history = useHistory();
   const dispatch = useDispatch();
 
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
+  const [nicknameOld, setNicknameOld] = useState('');
   const [nickname, setNickname] = useState('');
   const [loading, setLoading] = useState(false);
 
+  const nicknamePatt = new RegExp(/^[a-zA-Z0-9]+$/);
+
   const validateFields = () => {
-    if (phone.length !== 11) throw Error('Telefone deve conter o DDD');
+    if (isStrInvalid(name)) throw Error('Nome é um campo obrigatório');
+    if (isStrInvalid(nickname))
+      throw Error('Nome de usuário é um campo obrigatório');
+    if (!nicknamePatt.exec(nickname))
+      throw Error(
+        'Nome de usuário não deve conter espaços e nem caracteres especiais(*,@,!,...)',
+      );
+    if (isStrInvalid(phone) || phone.length !== 11)
+      throw Error('Telefone é um campo obrigatório e deve conter o DDD');
   };
 
   useEffect(() => {
     const getData = async () => {
       const API = new APIAdapter();
-      const data = await API.get('/user/123');
-      console.log(data);
+      const data = await API.get('/user/INSIRA AQUI SEU USER');
       setName(data.name);
-      setPhone(data.phone);
+      setPhone(data.phones[0].phone_number.toString());
+      setNicknameOld(data.nickname);
       setNickname(data.nickname);
     };
 
@@ -52,11 +65,11 @@ const EditUser: React.FC = () => {
       const params = {
         name,
         nickname,
-        phone,
+        phones: [{ phone_number: phone }],
       };
 
       // TODO User nickname
-      await API.patch('/user/cocota', params);
+      const res = await API.patch(`/user/${nicknameOld}`, params);
 
       dispatch(
         openModal({

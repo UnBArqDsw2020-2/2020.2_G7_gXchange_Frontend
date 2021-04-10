@@ -60,7 +60,7 @@ const Signup: React.FC = () => {
         email,
         name,
         nickname,
-        phone,
+        phones: [{ phone_number: phone }],
         password,
       };
 
