@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router';
+import { Checkbox } from '@material-ui/core';
 import { MdAddAPhoto } from 'react-icons/md';
 
 import {
@@ -9,6 +10,7 @@ import {
   ProfileImage,
   FormContainer,
   ProfileImageContainer,
+  Link,
 } from './styles';
 
 import APIAdapter from '../../services/api';
@@ -30,6 +32,7 @@ const Signup: React.FC = () => {
   const [phone, setPhone] = useState('');
   const [nickname, setNickname] = useState('');
   const [password, setPassword] = useState('');
+  const [checked, setChecked] = useState(false);
   const [loading, setLoading] = useState(false);
   const [passwordConfirmation, setPasswordConfirmation] = useState('');
 
@@ -46,6 +49,8 @@ const Signup: React.FC = () => {
       throw Error('Confirmação de senha é um campo obrigatório');
     if (password !== passwordConfirmation)
       throw Error('A senha e a confirmação devem ser iguais');
+    if (!checked)
+      throw Error('É necessário estar de acordo com os termos de uso');
   };
 
   const send = async () => {
@@ -164,7 +169,18 @@ const Signup: React.FC = () => {
             setPasswordConfirmation(e.target.value)
           }
         />
-
+        <Checkbox
+          checked={checked}
+          onChange={(e) => {
+            setChecked(e.target.checked);
+          }}
+        />
+        <span>
+          Declaro que li e concordo com os{' '}
+          <Link href="termo" target="_blank" rel="noopener noreferrer">
+            Termos de Uso
+          </Link>
+        </span>
         <SubmitBtn onClick={send}>CADASTRAR</SubmitBtn>
       </FormContainer>
     </Container>
