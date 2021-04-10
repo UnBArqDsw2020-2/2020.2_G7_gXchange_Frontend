@@ -19,7 +19,7 @@ export default class APIAdapter {
   async get(path: string, config?: AxiosRequestConfig) {
     const res = await this.instance.get(path, config);
 
-    return res.data.results || res;
+    return res.data.results || res.data;
   }
 
   async post(
