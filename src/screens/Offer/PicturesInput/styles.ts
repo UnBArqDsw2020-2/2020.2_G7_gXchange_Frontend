@@ -1,4 +1,5 @@
 import styled, { css } from 'styled-components';
+import { Chip as MChip } from '@material-ui/core';
 
 interface IPictureCardProps {
   imageUrl?: string;
@@ -14,6 +15,7 @@ export const PictureCard = styled.div<IPictureCardProps>`
   width: 500px;
   display: flex;
   height: 281px;
+  position: relative;
   align-items: center;
   border-radius: 16px;
   justify-content: center;
@@ -27,7 +29,6 @@ export const PictureCard = styled.div<IPictureCardProps>`
           background-size: cover;
           -o-background-size: cover;
           -moz-background-size: cover;
-          text-shadow: white 0px 0px 2px;
           -webkit-background-size: cover;
         `
       : css`
@@ -39,7 +40,34 @@ export const PictureCard = styled.div<IPictureCardProps>`
             background: var(--lightGreenBackground);
           }
         `};
+`;
 
-  /* strong {
-  } */
+export const AddPhotoContainer = styled.div`
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+
+  svg {
+    font-size: 48px;
+    margin-bottom: 8px;
+    color: var(--primary);
+  }
+`;
+
+export const Chip = styled(MChip)`
+  position: absolute;
+  color: var(--white) !important;
+  background-color: var(--imageChipBackground) !important;
+`;
+
+export const PictureCardFooter = styled.div`
+  bottom: 16px;
+  display: flex;
+  position: absolute;
+  align-items: center;
+
+  svg:hover {
+    opacity: 0.7;
+  }
 `;

@@ -1,28 +1,32 @@
 import React, { useState } from 'react';
 
 import { Select, MenuItem } from '@material-ui/core';
-import { FormContainer, SubmitBtn, LabelInputContainer } from './styles';
-import TextInput from '../../../components/TextInput';
-// import offerBuilder from '../../../utils/Offer/offerBuilder';
-// import { openModal } from '../../store/GlobalModal';
 
-interface IGameInfo {
+import TextInput from '../../../components/TextInput';
+import OfferPicturesInput from '../PicturesInput';
+
+import { FormContainer, SubmitBtn, LabelInputContainer } from './styles';
+
+export interface IPicture {
+  file: File;
+  url: string;
+}
+
+export interface IGameInfo {
   cep: string;
-  price: number;
   type: number;
+  price: number;
   gameName: string;
   plataform: string;
   condition: number;
   description: string;
+  pictures: IPicture[];
 }
 
 interface IGameFormProps {
   loading: boolean;
-  onNext: (game: IGameInfo) => void;
-  // offerBuilder: offerBuilder;
+  handleSubmit(game: IGameInfo): void;
 }
-
-type conditionType = 1 | 2 | 3;
 
 const conditionMap = {
   Novo: 1,
@@ -36,12 +40,7 @@ const typeMap = {
   'Troca e Venda': 3,
 };
 
-const GameForm: React.FC<IGameFormProps> = ({
-  loading,
-  onNext,
-  // offerBuilder,
-}) => {
-  // const { changeOffer } = offerBuilder;
+const GameForm: React.FC<IGameFormProps> = ({ loading, handleSubmit }) => {
   const [cep, setCep] = useState('');
   const [type, setType] = useState(1);
   const [price, setPrice] = useState(0);
@@ -49,13 +48,29 @@ const GameForm: React.FC<IGameFormProps> = ({
   const [condition, setCondition] = useState(1);
   const [plataform, setPlataform] = useState('');
   const [description, setDescription] = useState('');
+  const [pictures, setPictures] = useState<IPicture[]>([]);
 
-  const handleNextClick = () => {
-    onNext({ cep, type, price, gameName, plataform, condition, description });
+  const submitAction = () => {
+    handleSubmit({
+      cep,
+      type,
+      price,
+      gameName,
+      pictures,
+      plataform,
+      condition,
+      description,
+    });
   };
 
   return (
     <FormContainer>
+      <OfferPicturesInput
+        loading={loading}
+        pictures={pictures}
+        setPictures={setPictures}
+      />
+
       <TextInput
         label="Nome do Jogo"
         value={gameName}
@@ -141,7 +156,7 @@ const GameForm: React.FC<IGameFormProps> = ({
         }
       />
 
-      <SubmitBtn onClick={handleNextClick}>Próximo</SubmitBtn>
+      <SubmitBtn onClick={submitAction}>Próximo</SubmitBtn>
     </FormContainer>
   );
 };

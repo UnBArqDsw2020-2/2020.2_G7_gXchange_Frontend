@@ -1,56 +1,59 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-// import { saveAs } from 'file-saver';
-// import {} from '@material-ui/core';
-import Carousel from 'react-material-ui-carousel';
-import imageCompression from 'browser-image-compression';
 
+import Carousel, { CarouselStyleProps } from 'react-material-ui-carousel';
+import { IconButton, Typography } from '@material-ui/core';
+import { AddAPhoto, Close } from '@material-ui/icons';
+
+import { IPicture } from '../GameForm';
 import { openModal } from '../../../store/GlobalModal';
-import { Container, PictureCard } from './styles';
+import {
+  Chip,
+  Container,
+  PictureCard,
+  PictureCardFooter,
+  AddPhotoContainer,
+} from './styles';
 
-interface IPicture {
-  file: File;
-  url: string;
+const MAX_PHOTOS = 5;
+
+interface IOfferPicturesInputProps {
+  loading: boolean;
+  pictures: IPicture[];
+  setPictures(pictures: IPicture[]): void;
 }
 
-const COMPRESSION_OPTIONS = {
-  maxSizeMB: 0.5,
-  fileType: 'png',
-  useWebWorker: true,
-  maxWidthOrHeight: 500,
-};
-
-const OfferPicturesInput: React.FC = () => {
+const OfferPicturesInput: React.FC<IOfferPicturesInputProps> = ({
+  loading,
+  pictures,
+  setPictures,
+}) => {
   const dispatch = useDispatch();
-  const [loading, setLoading] = useState(false);
-  const [pictures, setPictures] = useState<IPicture[]>([]);
 
-  const compressPictures = async (pics: IPicture[]): Promise<File[]> => {
-    try {
-      setLoading(true);
+  const [loadingPictures, setLoadingPictures] = useState(false);
 
-      const compressions = pics.map((picture) =>
-        imageCompression(picture.file, COMPRESSION_OPTIONS),
-      );
+  const handlePictureRemoval = (idx: number) => {
+    dispatch(
+      openModal({
+        title: 'Deseja remover a foto?',
+        type: 'question',
+        content:
+          'Você realmente deseja remover essa foto? Essa operação não poderá ser desfeita!',
+        handleConfirm() {
+          const newPictures = [...pictures];
 
-      return await Promise.all(compressions);
-    } catch {
-      dispatch(
-        openModal({
-          title: 'Erro',
-          type: 'error',
-          content: 'Não foi possível inserir as imagens. Tente novamente',
-        }),
-      );
-    } finally {
-      setLoading(false);
-    }
+          newPictures.splice(idx, 1);
 
-    return [];
+          setPictures(newPictures);
+        },
+      }),
+    );
   };
 
   const handleInputChange = async (fileList: FileList) => {
     const newFiles: IPicture[] = [];
+
+    setLoadingPictures(true);
 
     Array.from(fileList).forEach((file) => {
       newFiles.push({
@@ -59,15 +62,9 @@ const OfferPicturesInput: React.FC = () => {
       });
     });
 
-    const a = await compressPictures(newFiles);
-
-    setPictures(a.map((item, idx) => ({ url: newFiles[idx].url, file: item })));
-
-    // a.forEach((file, idx) => {
-    //   saveAs(file, `test-${idx}.png`);
-    // });
-
     setPictures(newFiles);
+
+    setLoadingPictures(false);
   };
 
   return (
@@ -77,31 +74,74 @@ const OfferPicturesInput: React.FC = () => {
         type="file"
         accept="image/*"
         id="offer-pictures-input"
+        disabled={loading || loadingPictures}
         onChange={(e) => {
           if (e.target.files && e.target.files.length > 0)
             handleInputChange(e.target.files);
         }}
       />
 
-      <label htmlFor="offer-pictures-input">
-        {pictures.length <= 0 ? (
-          <PictureCard>
-            <strong>Insira uma foto</strong>
-          </PictureCard>
-        ) : (
-          <Carousel autoPlay={false} navButtonsAlwaysVisible>
-            {pictures.map((picture) => (
-              <PictureCard key={picture.file.name} imageUrl={picture.url}>
-                <strong>Insira uma foto</strong>
-              </PictureCard>
-            ))}
-          </Carousel>
-        )}
-      </label>
+      <Carousel
+        autoPlay={false}
+        cycleNavigation={false}
+        navButtonsAlwaysVisible
+        indicators={!!pictures.length}
+        navButtonsProps={
+          {
+            className: '',
+            style: {
+              marginTop: '-20px',
+              display: !pictures.length ? 'none' : '',
+            },
+          } as CarouselStyleProps
+        }
+      >
+        {[...pictures, null].slice(0, MAX_PHOTOS).map((picture, idx) => (
+          <label htmlFor="offer-pictures-input">
+            {!picture ? (
+              <PictureCard>
+                <AddPhotoContainer>
+                  <AddAPhoto />
 
-      {/* {pictures.length > 0 ? (
-        <img src={pictures[0].url} width="300" height="300" alt="asdad" />
-      ) : null} */}
+                  <Typography>
+                    {pictures.length} de {MAX_PHOTOS} adicionadas
+                  </Typography>
+                </AddPhotoContainer>
+              </PictureCard>
+            ) : (
+              <PictureCard key={picture.file.name} imageUrl={picture.url}>
+                {idx === 0 ? (
+                  <Chip label="Foto Principal" style={{ top: 16 }} />
+                ) : null}
+
+                <PictureCardFooter>
+                  <Chip
+                    label={`${idx + 1}  /  ${MAX_PHOTOS}`}
+                    style={{ height: 32 }}
+                  />
+
+                  <IconButton
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      handlePictureRemoval(idx);
+                    }}
+                    style={{
+                      width: 32,
+                      height: 32,
+                      marginLeft: 58,
+                      borderRadius: '100%',
+                      backgroundColor: 'var(--imageChipBackground)',
+                    }}
+                  >
+                    <Close style={{ color: 'var(--white)', fontSize: 18 }} />
+                  </IconButton>
+                </PictureCardFooter>
+              </PictureCard>
+            )}
+          </label>
+        ))}
+      </Carousel>
     </Container>
   );
 };

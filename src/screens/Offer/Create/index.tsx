@@ -1,68 +1,84 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { useHistory } from 'react-router';
-import { Step, StepLabel } from '@material-ui/core';
 
-import GameForm from '../GameForm';
-// import OfferBuilder, { IOffer } from '../../../utils/Offer/offerBuilder';
+import imageCompression from 'browser-image-compression';
 
 import APIAdapter from '../../../services/api';
-import OfferPicturesInput from '../PicturesInput';
 import { openModal } from '../../../store/GlobalModal';
 
-import { Container, Stepper } from './styles';
+import GameForm, { IPicture, IGameInfo } from '../GameForm';
+
+import { Container } from './styles';
 
 const isStrInvalid = (value: string | null | undefined) => !value;
 
+const COMPRESSION_OPTIONS = {
+  maxSizeMB: 0.5,
+  fileType: 'png',
+  useWebWorker: true,
+  maxWidthOrHeight: 500,
+};
+
 const CreateOffer: React.FC = () => {
-  const history = useHistory();
   const dispatch = useDispatch();
 
   const [loading, setLoading] = useState(false);
-  const [activeStep, setActiveStep] = useState(0);
-  // const [offerBuilder] = useState<OfferBuilder>(new OfferBuilder());
-  const [steps] = useState(['Informações do jogo', 'Enviar fotos']);
 
-  // game_name
-  // plataform
-  // price
-  // description
-  // cep
-  // condition
-  // fotos
+  const compressPictures = async (pics: IPicture[]): Promise<File[]> => {
+    try {
+      setLoading(true);
 
-  const getStepContent = () => {
-    switch (activeStep) {
-      case 0:
-        return (
-          <>
-            <OfferPicturesInput />
+      const compressions = pics.map((picture) =>
+        imageCompression(picture.file, COMPRESSION_OPTIONS),
+      );
 
-            <GameForm
-              loading={loading}
-              onNext={(gameInfo: any) => console.log('asdasdad')}
-              // offerBuilder={offerBuilder}
-            />
-          </>
-        );
-      case 1:
-        return null;
-      default:
-        return null;
+      return await Promise.all(compressions);
+    } catch {
+      dispatch(
+        openModal({
+          title: 'Erro',
+          type: 'error',
+          content: 'Não foi possível enviar as imagens. Tente novamente',
+        }),
+      );
+    } finally {
+      setLoading(false);
+    }
+
+    return [];
+  };
+
+  const createOffer = async (offerData: IGameInfo) => {
+    try {
+      setLoading(true);
+
+      const apiAdapter = new APIAdapter();
+
+      const { pictures } = offerData;
+
+      const data = {
+        ...offerData,
+        pictures: pictures.map((item) => ({ picture: item.file })),
+      };
+
+      await apiAdapter.post('/offer', data);
+    } catch {
+      dispatch(
+        openModal({
+          title: 'Erro',
+          type: 'error',
+          content:
+            'Não foi possível criar o anúncio. Tente novamente mais tarde.',
+        }),
+      );
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <Container>
-      <Stepper activeStep={activeStep}>
-        {steps.map((label) => (
-          <Step key={label}>
-            <StepLabel>{label}</StepLabel>
-          </Step>
-        ))}
-      </Stepper>
-
-      {getStepContent()}
+      <GameForm loading={loading} handleSubmit={createOffer} />
     </Container>
   );
 };
