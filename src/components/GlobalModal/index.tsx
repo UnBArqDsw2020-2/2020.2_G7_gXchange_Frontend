@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Dialog, DialogActions } from '@material-ui/core';
+import { Dialog, Button, DialogActions } from '@material-ui/core';
 import { AiOutlineClose } from 'react-icons/ai';
 import { StoreState } from '../../store';
 import { closeModal } from '../../store/GlobalModal';
@@ -15,9 +15,14 @@ import {
 const GlobalModal: React.FC = () => {
   const dispatch = useDispatch();
 
-  const { open, title, type, content } = useSelector(
-    (store: StoreState) => store.globalModalState,
-  );
+  const {
+    open,
+    title,
+    type,
+    content,
+    handleConfirm,
+    handleReject,
+  } = useSelector((store: StoreState) => store.globalModalState);
 
   const handleClose = () => {
     dispatch(closeModal());
@@ -41,9 +46,35 @@ const GlobalModal: React.FC = () => {
         </DialogContent>
 
         <DialogActions>
-          <OkButton modalType={type} onClick={handleClose}>
-            OK
-          </OkButton>
+          {type === 'question' ? (
+            <>
+              <Button
+                color="primary"
+                variant="outlined"
+                onClick={() => {
+                  if (handleConfirm) handleConfirm();
+                  handleClose();
+                }}
+              >
+                Sim
+              </Button>
+
+              <Button
+                variant="outlined"
+                style={{ borderColor: 'var(--error)', color: 'var(--error)' }}
+                onClick={() => {
+                  if (handleReject) handleReject();
+                  handleClose();
+                }}
+              >
+                Não
+              </Button>
+            </>
+          ) : (
+            <OkButton modalType={type} onClick={handleClose}>
+              OK
+            </OkButton>
+          )}
         </DialogActions>
       </Dialog>
     </Container>

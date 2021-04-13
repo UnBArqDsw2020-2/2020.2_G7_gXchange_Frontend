@@ -26,10 +26,15 @@ const typeBackgroundMap = {
     color: var(--black);
     background-color: var(--warning);
   `,
+  question: css`
+    color: var(--white);
+    background-color: var(--primary);
+  `,
 };
 
 const okButtonMap = {
   success: css``,
+  question: css``,
   error: css`
     color: var(--white) !important;
     background-color: var(--black) !important;
