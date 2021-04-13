@@ -10,7 +10,7 @@ export default createGlobalStyle`
 
   body {
     background: ${
-      window.location.pathname === '/cadastro' || 
+      window.location.pathname === '/cadastro' ||
       window.location.pathname === '/usuario/editar'
         ? 'var(--purpleBackground)'
         : ''

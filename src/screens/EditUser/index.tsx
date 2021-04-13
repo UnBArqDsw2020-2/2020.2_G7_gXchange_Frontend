@@ -69,7 +69,7 @@ const EditUser: React.FC = () => {
       };
 
       // TODO User nickname
-      const res = await API.patch(`/user/${nicknameOld}`, params);
+      await API.patch(`/user/${nicknameOld}`, params);
 
       dispatch(
         openModal({
