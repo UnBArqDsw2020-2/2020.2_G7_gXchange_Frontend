@@ -7,7 +7,7 @@ const Routes: React.FC = () => (
   <Router>
     <Switch>
       <Route exact path="/cadastro" component={Signup} />
-      <Route exact path="/editarUsuario" component={EditUser} />
+      <Route exact path="/usuario/editar" component={EditUser} />
     </Switch>
   </Router>
 );

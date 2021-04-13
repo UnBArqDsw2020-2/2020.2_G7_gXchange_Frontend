@@ -27,7 +27,7 @@ const EditUser: React.FC = () => {
   const [nickname, setNickname] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const nicknamePatt = new RegExp(/^[a-zA-Z0-9]+$/);
+  const nicknamePatt = new RegExp(/^[a-zA-Z0-9_-]+$/);
 
   const validateFields = () => {
     if (isStrInvalid(name)) throw Error('Nome é um campo obrigatório');
