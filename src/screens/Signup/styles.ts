@@ -32,8 +32,6 @@ export const ProfileImageContainer = styled.div`
   }
 `;
 
-export const Label = styled.label``;
-
 export const ProfileImage = styled(Avatar)`
   width: 150px !important;
   height: 150px !important;

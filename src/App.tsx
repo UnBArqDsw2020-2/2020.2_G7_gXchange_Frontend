@@ -1,5 +1,5 @@
 import React from 'react';
-import GlobalStyle from './styles';
+import GlobalStyle from './globalStyle';
 import Routes from './routes/index';
 import GlobalModal from './components/GlobalModal';
 

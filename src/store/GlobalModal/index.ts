@@ -1,12 +1,14 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-export type ModalType = 'success' | 'error' | 'warning';
+export type ModalType = 'success' | 'error' | 'warning' | 'question';
 
 export interface IGlobalModal {
   open: boolean;
   title: string;
   content: string;
   type: ModalType;
+  handleReject?: () => void;
+  handleConfirm?: () => void;
 }
 
 const initialState = (): IGlobalModal => ({
