@@ -49,8 +49,8 @@ const GlobalModal: React.FC = () => {
           {type === 'question' ? (
             <>
               <Button
-                color="primary"
-                variant="outlined"
+                variant="contained"
+                style={{ background: 'var(--error)', color: 'var(--white)' }}
                 onClick={() => {
                   if (handleConfirm) handleConfirm();
                   handleClose();
@@ -60,8 +60,8 @@ const GlobalModal: React.FC = () => {
               </Button>
 
               <Button
+                color="primary"
                 variant="outlined"
-                style={{ borderColor: 'var(--error)', color: 'var(--error)' }}
                 onClick={() => {
                   if (handleReject) handleReject();
                   handleClose();
