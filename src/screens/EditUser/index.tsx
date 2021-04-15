@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router';
 import { MdAddAPhoto } from 'react-icons/md';
@@ -15,38 +15,44 @@ import APIAdapter from '../../services/api';
 import TextInput from '../../components/TextInput';
 import { openModal } from '../../store/GlobalModal';
 
-const emailPatt = new RegExp(
-  /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-);
-
 const isStrInvalid = (value: string | null | undefined) => !value;
 
-const Signup: React.FC = () => {
+const EditUser: React.FC = () => {
   const history = useHistory();
   const dispatch = useDispatch();
 
   const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
+  const [nicknameOld, setNicknameOld] = useState('');
   const [nickname, setNickname] = useState('');
-  const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
-  const [passwordConfirmation, setPasswordConfirmation] = useState('');
+
+  const nicknamePatt = new RegExp(/^[a-zA-Z0-9_-]+$/);
 
   const validateFields = () => {
     if (isStrInvalid(name)) throw Error('Nome é um campo obrigatório');
     if (isStrInvalid(nickname))
       throw Error('Nome de usuário é um campo obrigatório');
-    if (isStrInvalid(email)) throw Error('Email é um campo obrigatório');
-    if (!emailPatt.test(email)) throw Error('Email deve ser um email válido');
+    if (!nicknamePatt.exec(nickname))
+      throw Error(
+        'Nome de usuário não deve conter espaços e nem caracteres especiais(*,@,!,...)',
+      );
     if (isStrInvalid(phone) || phone.length !== 11)
       throw Error('Telefone é um campo obrigatório e deve conter o DDD');
-    if (isStrInvalid(password)) throw Error('Senha é um campo obrigatório');
-    if (isStrInvalid(passwordConfirmation))
-      throw Error('Confirmação de senha é um campo obrigatório');
-    if (password !== passwordConfirmation)
-      throw Error('A senha e a confirmação devem ser iguais');
   };
+
+  useEffect(() => {
+    const getData = async () => {
+      const API = new APIAdapter();
+      const data = await API.get('/user/INSIRA AQUI SEU USER');
+      setName(data.name);
+      setPhone(data.phones[0].phone_number.toString());
+      setNicknameOld(data.nickname);
+      setNickname(data.nickname);
+    };
+
+    getData();
+  }, []);
 
   const send = async () => {
     try {
@@ -57,20 +63,19 @@ const Signup: React.FC = () => {
       setLoading(true);
 
       const params = {
-        email,
         name,
         nickname,
         phones: [{ phone_number: phone }],
-        password,
       };
 
-      await API.post('/user', params);
+      // TODO User nickname
+      await API.patch(`/user/${nicknameOld}`, params);
 
       dispatch(
         openModal({
           title: 'Sucesso',
           type: 'success',
-          content: 'Conta criada com sucesso',
+          content: 'Dados alterados com sucesso',
         }),
       );
 
@@ -91,7 +96,7 @@ const Signup: React.FC = () => {
   return (
     <Container>
       <ProfileImageContainer>
-        <ProfileImage>{(name && name[0].toUpperCase()) || 'A'}</ProfileImage>
+        <ProfileImage>A</ProfileImage>
 
         <MdAddAPhoto size="32" color="var(--white)" />
       </ProfileImageContainer>
@@ -120,17 +125,6 @@ const Signup: React.FC = () => {
         />
 
         <TextInput
-          label="Email"
-          value={email}
-          disabled={loading}
-          variant="outlined"
-          placeholder="Digite o email"
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-            setEmail(e.target.value)
-          }
-        />
-
-        <TextInput
           value={phone}
           label="Telefone"
           disabled={loading}
@@ -141,34 +135,10 @@ const Signup: React.FC = () => {
           }
         />
 
-        <TextInput
-          label="Senha"
-          type="password"
-          value={password}
-          variant="outlined"
-          disabled={loading}
-          placeholder="Digite uma senha"
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-            setPassword(e.target.value)
-          }
-        />
-
-        <TextInput
-          type="password"
-          variant="outlined"
-          disabled={loading}
-          label="Senha repetida"
-          value={passwordConfirmation}
-          placeholder="Confirme sua senha"
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-            setPasswordConfirmation(e.target.value)
-          }
-        />
-
-        <SubmitBtn onClick={send}>CADASTRAR</SubmitBtn>
+        <SubmitBtn onClick={send}>CONFIRMAR</SubmitBtn>
       </FormContainer>
     </Container>
   );
 };
 
-export default Signup;
+export default EditUser;
