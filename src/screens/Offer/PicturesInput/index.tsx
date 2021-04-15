@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useDispatch } from 'react-redux';
 
 import Carousel, { CarouselStyleProps } from 'react-material-ui-carousel';
@@ -67,6 +67,11 @@ const OfferPicturesInput: React.FC<IOfferPicturesInputProps> = ({
     setLoadingPictures(false);
   };
 
+  const getFilledPictures = useCallback(
+    () => [...pictures, null].slice(0, MAX_PHOTOS),
+    [pictures],
+  );
+
   return (
     <Container>
       <input
@@ -96,8 +101,11 @@ const OfferPicturesInput: React.FC<IOfferPicturesInputProps> = ({
           } as CarouselStyleProps
         }
       >
-        {[...pictures, null].slice(0, MAX_PHOTOS).map((picture, idx) => (
-          <label htmlFor="offer-pictures-input">
+        {getFilledPictures().map((picture, idx) => (
+          <label
+            htmlFor="offer-pictures-input"
+            key={picture?.url || `picture-${idx}`}
+          >
             {!picture ? (
               <PictureCard>
                 <AddPhotoContainer>
