@@ -64,100 +64,106 @@ const GameForm: React.FC<IGameFormProps> = ({ loading, handleSubmit }) => {
   };
 
   return (
-    <FormContainer>
+    <>
       <OfferPicturesInput
         loading={loading}
         pictures={pictures}
         setPictures={setPictures}
       />
 
-      <TextInput
-        label="Nome do Jogo"
-        value={gameName}
-        disabled={loading}
-        variant="outlined"
-        placeholder="Digite o nome do jogo"
-        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-          setGameName(e.target.value)
-        }
-      />
-
-      <LabelInputContainer>
-        <span>Condição</span>
-        <Select
-          variant="outlined"
-          value={condition}
-          onChange={(e) => setCondition(e.target.value as number)}
-        >
-          {Object.entries(conditionMap).map((item) => (
-            <MenuItem value={item[1]}>{item[0]}</MenuItem>
-          ))}
-        </Select>
-      </LabelInputContainer>
-
-      <LabelInputContainer>
-        <span>Tipo</span>
-        <Select
-          value={type}
-          variant="outlined"
-          onChange={(e) => setType(e.target.value as number)}
-        >
-          {Object.entries(typeMap).map((item) => (
-            <MenuItem value={item[1]}>{item[0]}</MenuItem>
-          ))}
-        </Select>
-      </LabelInputContainer>
-
-      {type === 2 || type === 3 ? (
+      <FormContainer>
         <TextInput
-          label="Preço"
-          value={price}
+          label="Nome do Jogo *"
+          value={gameName}
+          disabled={loading}
+          variant="outlined"
+          placeholder="Digite o nome do jogo"
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            setGameName(e.target.value)
+          }
+        />
+
+        <LabelInputContainer>
+          <span>Condição *</span>
+          <Select
+            variant="outlined"
+            value={condition}
+            onChange={(e) => setCondition(e.target.value as number)}
+          >
+            {Object.entries(conditionMap).map((item) => (
+              <MenuItem key={item[0]} value={item[1]}>
+                {item[0]}
+              </MenuItem>
+            ))}
+          </Select>
+        </LabelInputContainer>
+
+        <LabelInputContainer>
+          <span>Tipo *</span>
+          <Select
+            value={type}
+            variant="outlined"
+            onChange={(e) => setType(e.target.value as number)}
+          >
+            {Object.entries(typeMap).map((item) => (
+              <MenuItem key={item[0]} value={item[1]}>
+                {item[0]}
+              </MenuItem>
+            ))}
+          </Select>
+        </LabelInputContainer>
+
+        {type === 2 || type === 3 ? (
+          <TextInput
+            label="Preço"
+            value={price}
+            disabled={loading}
+            variant="outlined"
+            placeholder="Digite a descrição do jogo"
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              setPrice(parseFloat(e.target.value))
+            }
+          />
+        ) : null}
+
+        <TextInput
+          label="Plataforma *"
+          value={plataform}
+          disabled={loading}
+          variant="outlined"
+          placeholder="Digite a plataforma do jogo"
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            setPlataform(e.target.value)
+          }
+        />
+
+        <TextInput
+          label="CEP *"
+          value={cep}
+          disabled={loading}
+          variant="outlined"
+          placeholder="Digite seu cep"
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            setCep(e.target.value)
+          }
+        />
+
+        <TextInput
+          rows={8}
+          multiline
+          label="Descrição"
+          value={description}
           disabled={loading}
           variant="outlined"
           placeholder="Digite a descrição do jogo"
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-            setPrice(parseFloat(e.target.value))
+            setDescription(e.target.value)
           }
         />
-      ) : null}
 
-      <TextInput
-        label="Plataforma"
-        value={plataform}
-        disabled={loading}
-        variant="outlined"
-        placeholder="Digite a plataforma do jogo"
-        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-          setPlataform(e.target.value)
-        }
-      />
-
-      <TextInput
-        label="CEP"
-        value={cep}
-        disabled={loading}
-        variant="outlined"
-        placeholder="Digite seu cep"
-        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-          setCep(e.target.value)
-        }
-      />
-
-      <TextInput
-        rows={8}
-        multiline
-        label="Descrição"
-        value={description}
-        disabled={loading}
-        variant="outlined"
-        placeholder="Digite a descrição do jogo"
-        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-          setDescription(e.target.value)
-        }
-      />
-
-      <SubmitBtn onClick={submitAction}>Próximo</SubmitBtn>
-    </FormContainer>
+        <SubmitBtn onClick={submitAction}>Próximo</SubmitBtn>
+      </FormContainer>
+    </>
   );
 };
 

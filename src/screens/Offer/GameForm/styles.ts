@@ -4,10 +4,6 @@ import { Button } from '@material-ui/core';
 export const FormContainer = styled.div`
   width: 500px;
 
-  * {
-    width: 100%;
-  }
-
   @media (max-width: 550px) {
     width: 90%;
   }
