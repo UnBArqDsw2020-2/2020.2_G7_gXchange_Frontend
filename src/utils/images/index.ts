@@ -1,4 +1,5 @@
 import imageCompression from 'browser-image-compression';
+import { Picture } from '../../models';
 
 export interface Options {
   fileType?: string;
@@ -41,4 +42,44 @@ export const parsePicturesToBase64 = async (files: File[]) => {
   );
 
   return Promise.all(promises);
+};
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const parseBase64ToPicture = async (picture: any) => {
+  const file = await imageCompression.getFilefromDataUrl(
+    `data:image/png;base64,${picture.bin}`,
+    'file-1',
+  );
+
+  const pic: Picture = {
+    file,
+    url: URL.createObjectURL(file),
+  };
+
+  return pic;
+};
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const parseBase64ToPictures = async (pictures: any[]) => {
+  const promises = pictures.map((item, idx) =>
+    imageCompression.getFilefromDataUrl(
+      `data:image/png;base64,${item.bin}`,
+      `file-${idx}`,
+    ),
+  );
+
+  const files = await Promise.all(promises);
+
+  const picArray: Array<Picture> = [];
+
+  files.forEach((item) => {
+    const pic: Picture = {
+      file: item,
+      url: URL.createObjectURL(item),
+    };
+
+    picArray.push(pic);
+  });
+
+  return picArray;
 };

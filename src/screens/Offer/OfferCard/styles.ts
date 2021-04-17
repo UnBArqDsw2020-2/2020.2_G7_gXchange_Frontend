@@ -5,15 +5,16 @@ export const StyledCard = styled(Card)`
   && {
     filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
     border-radius: 10px;
+    background-color: var(--lightGreenBackground);
+    width: 45%;
+    max-width: 600px;
+
+    @media (max-width: 900px) {
+      width: 90%;
+    }
   }
   display: inline-block;
   margin: 15px;
-  background-color: var(--lightGreenBackground) !important;
-
-  .CardImage {
-    width: 180px;
-    height: 180px;
-  }
 
   .Valor {
     float: right;
@@ -35,7 +36,6 @@ export const ImageContainer = styled.div`
 
 export const CardContainer = styled.div`
   display: flex;
-  width-max: 300px;
   flex-direction: row;
   justify-content: space-between;
   border-radius: 10px;
@@ -48,6 +48,7 @@ export const Tag = styled(Chip)`
     height: 25px;
     color: var(--white) !important;
     align-items: center;
+    margin-top: 4px;
     margin-right: 8px;
     background-color: var(--primary) !important;
   }
@@ -56,7 +57,7 @@ export const Tag = styled(Chip)`
 export const TagContainer = styled.div`
   display: inline-block;
   bottom: 0;
-  margin: 15px;
+  margin: 30px 15px;
 `;
 
 export const StyledButton = styled.button`
@@ -84,7 +85,7 @@ export const StyledCardActions = styled.div`
 
 export const StyledContent = styled(CardContent)`
   && {
-    max-width: 60%;
+    max-width: 50%;
     padding: 8px;
   }
 `;

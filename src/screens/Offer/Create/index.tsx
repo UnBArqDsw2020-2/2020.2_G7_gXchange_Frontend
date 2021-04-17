@@ -79,11 +79,11 @@ const CreateOffer: React.FC = () => {
 
     return {
       cep,
-      plataform,
+      platform: plataform,
       condition,
       game_name: gameName,
       ...(price > 0 && { price }),
-      user: 'joaothebrabo@mail.com',
+      user: 'Derfel@gmail.com',
       is_trade: type === 1 || type === 3,
       ...(!!description && { description }),
       pictures: base64Images.map((item) => ({

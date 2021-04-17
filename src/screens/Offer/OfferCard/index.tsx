@@ -1,5 +1,6 @@
 import React from 'react';
 import { CardMedia, Typography } from '@material-ui/core';
+import { Skeleton } from '@material-ui/lab';
 import {
   StyledCard,
   CardContainer,
@@ -12,16 +13,22 @@ import {
   StyledCardActions,
 } from './styles';
 
-const OfferCard: React.FC = () => {
+import { OfferResume } from '../../../models';
+
+interface IOfferCard {
+  offer: OfferResume;
+}
+
+const OfferCard: React.FC<IOfferCard> = ({ offer }) => {
   return (
     <StyledCard>
       <CardContainer>
         <StyledContent>
           <Typography gutterBottom variant="h6" component="h1">
-            Sherlock Holmes no Reino Da loucura
+            {offer.gameName}
           </Typography>
           <Typography gutterBottom variant="h6" component="h1">
-            Nome:João
+            Autor: {offer.author.name}
           </Typography>
           <TagContainer>
             <Tag label="Novo" />
@@ -29,26 +36,27 @@ const OfferCard: React.FC = () => {
             <Tag label="Venda" />
           </TagContainer>
         </StyledContent>
-        <ImageContainer>
+        <Skeleton variant="rect" animation="wave" width={180} height={180} />
+        {/* <ImageContainer>
           <CardMedia
             className="CardImage"
             component="img"
             src="https://cdn-istoe-ssl.akamaized.net/wp-content/uploads/sites/14/2018/06/benedict-cumberbatch.jpg"
           />
-        </ImageContainer>
+        </ImageContainer> */}
       </CardContainer>
       <InfoContent>
         <div>
           <Typography gutterBottom variant="h6" component="h1">
-            Plataforma: Xbox
+            Plataforma: {offer.platform}
           </Typography>
           <Typography gutterBottom variant="h6" component="h1">
-            Locoalização: Brasilia
+            Localização: Onde o Judas bateu as botas
           </Typography>
         </div>
       </InfoContent>
       <Typography className="Valor" gutterBottom variant="h5" component="h1">
-        Valor:R$ 100
+        Valor: R${offer.price}
       </Typography>
       <StyledCardActions>
         <StyledButton>Ir para o Anúncio</StyledButton>
