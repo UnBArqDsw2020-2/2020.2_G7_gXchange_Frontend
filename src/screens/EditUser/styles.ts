@@ -32,6 +32,8 @@ export const ProfileImageContainer = styled.div`
   }
 `;
 
+export const Label = styled.label``;
+
 export const ProfileImage = styled(Avatar)`
   width: 150px !important;
   height: 150px !important;
@@ -55,8 +57,4 @@ export const SubmitBtn = styled(Button).attrs({
   color: var(--white) !important;
   border-radius: 16px !important;
   background-color: var(--primary) !important;
-`;
-
-export const Link = styled.a`
-  color: var(--primary);
 `;

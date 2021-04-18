@@ -11,7 +11,8 @@ export default createGlobalStyle`
   body {
     background: ${
       window.location.pathname === '/cadastro' ||
-      window.location.pathname === '/termo'
+      window.location.pathname === '/termo' ||
+      window.location.pathname === '/usuario/editar'
         ? 'var(--purpleBackground)'
         : ''
     };
@@ -32,6 +33,7 @@ export default createGlobalStyle`
     --warning: #ffcc00;
     --inputBackground: #f2ebd5;
     --purpleBackground: #17092E;
+    --imageChipBackground: #494949;
     --lightGreenBackground: #E6F5F0;
   }
 `;
