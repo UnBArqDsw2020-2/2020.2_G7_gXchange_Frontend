@@ -1,18 +1,15 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-
-import APIAdapter from '../../../services/api';
 import { openModal } from '../../../store/GlobalModal';
 import GameForm, { IPicture, IGameInfo } from '../GameForm';
-import { compressImages, parsePicturesToBase64 } from '../../../utils/images';
-
 import { Container } from './styles';
+import { compressImages, parsePicturesToBase64 } from '../../../utils/images';
+import APIAdapter from '../../../services/api';
 
 const isStrInvalid = (value: string | null | undefined) => !value;
 
-const CreateOffer: React.FC = () => {
+const EditOffer: React.FC = () => {
   const dispatch = useDispatch();
-
   const [loading, setLoading] = useState(false);
 
   const compressPictures = async (pics: IPicture[]): Promise<File[]> => {
@@ -83,7 +80,6 @@ const CreateOffer: React.FC = () => {
       condition,
       game_name: gameName,
       ...(price > 0 && { price }),
-      user: 'email@email.com',
       is_trade: type === 1 || type === 3,
       ...(!!description && { description }),
       pictures: base64Images.map((item) => ({
@@ -92,7 +88,7 @@ const CreateOffer: React.FC = () => {
     };
   };
 
-  const createOffer = async (offerData: IGameInfo) => {
+  const editOffer = async (offerData: IGameInfo) => {
     try {
       setLoading(true);
 
@@ -106,13 +102,15 @@ const CreateOffer: React.FC = () => {
 
       const base64Images = await parsePicturesToBase64(compressedPictures);
 
-      await apiAdapter.post('/offer', getRequestData(offerData, base64Images));
-
+      await apiAdapter.patch(
+        '/offer/7', // TODO offer/offerId
+        getRequestData(offerData, base64Images),
+      );
       dispatch(
         openModal({
           title: 'Sucesso',
           type: 'success',
-          content: 'Anúncio criado com sucesso!',
+          content: 'Anúncio editado com sucesso!',
         }),
       );
     } catch {
@@ -120,8 +118,7 @@ const CreateOffer: React.FC = () => {
         openModal({
           title: 'Erro',
           type: 'error',
-          content:
-            'Não foi possível criar o anúncio. Tente novamente mais tarde.',
+          content: 'Não foi possível editar o anúncio. Tente novamente',
         }),
       );
     } finally {
@@ -131,9 +128,9 @@ const CreateOffer: React.FC = () => {
 
   return (
     <Container>
-      <GameForm loading={loading} handleSubmit={createOffer} />
+      <GameForm loading={loading} handleSubmit={editOffer} isEdit />
     </Container>
   );
 };
 
-export default CreateOffer;
+export default EditOffer;
