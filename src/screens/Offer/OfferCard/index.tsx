@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { CardMedia, Typography } from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab';
 import {
@@ -10,16 +10,36 @@ import {
   InfoContent,
   StyledContent,
   StyledButton,
-  StyledCardActions,
+  ButtonContainer,
 } from './styles';
 
 import { OfferResume } from '../../../models';
 
 interface IOfferCard {
   offer: OfferResume;
+  loading: boolean;
 }
 
-const OfferCard: React.FC<IOfferCard> = ({ offer }) => {
+const OfferCard: React.FC<IOfferCard> = ({ offer, loading }) => {
+  const [tags, setTags] = React.useState<Array<string>>([]);
+
+  useEffect(() => {
+    if (offer.type === 1 || offer.type === 3) {
+      setTags((state) => [...state, 'Venda']);
+    }
+    if (offer.type === 2 || offer.type === 3) {
+      setTags((state) => [...state, 'Troca']);
+    }
+
+    if (offer.condition === 1) {
+      setTags((state) => [...state, 'Novo']);
+    } else if (offer.condition === 2) {
+      setTags((state) => [...state, 'Semi-novo']);
+    } else {
+      setTags((state) => [...state, 'Usado']);
+    }
+  }, [offer.condition, offer.type]);
+
   return (
     <StyledCard>
       <CardContainer>
@@ -31,19 +51,26 @@ const OfferCard: React.FC<IOfferCard> = ({ offer }) => {
             Autor: {offer.author.name}
           </Typography>
           <TagContainer>
-            <Tag label="Novo" />
-            <Tag label="Troca" />
-            <Tag label="Venda" />
+            {tags.map((label) => (
+              <Tag label={label} />
+            ))}
           </TagContainer>
         </StyledContent>
-        <Skeleton variant="rect" animation="wave" width={180} height={180} />
-        {/* <ImageContainer>
-          <CardMedia
-            className="CardImage"
-            component="img"
-            src="https://cdn-istoe-ssl.akamaized.net/wp-content/uploads/sites/14/2018/06/benedict-cumberbatch.jpg"
-          />
-        </ImageContainer> */}
+        {loading ? (
+          <Skeleton variant="rect" animation="wave" width={180} height={180} />
+        ) : (
+          <ImageContainer>
+            <CardMedia
+              className="CardImage"
+              component="img"
+              width="180px"
+              height="180px"
+              src={
+                offer.pictures.length ? offer.pictures[0].url : '/image_404.png'
+              }
+            />
+          </ImageContainer>
+        )}
       </CardContainer>
       <InfoContent>
         <div>
@@ -58,9 +85,9 @@ const OfferCard: React.FC<IOfferCard> = ({ offer }) => {
       <Typography className="Valor" gutterBottom variant="h5" component="h1">
         Valor: R${offer.price}
       </Typography>
-      <StyledCardActions>
+      <ButtonContainer>
         <StyledButton>Ir para o Anúncio</StyledButton>
-      </StyledCardActions>
+      </ButtonContainer>
     </StyledCard>
   );
 };

@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { Card, Chip, CardContent } from '@material-ui/core';
 
-export const StyledCard = styled(Card)`
+export const StyledCard = styled.div`
   && {
     filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
     border-radius: 10px;
@@ -13,20 +13,20 @@ export const StyledCard = styled(Card)`
       width: 90%;
     }
   }
-  display: inline-block;
-  margin: 15px;
 
   .Valor {
-    float: right;
-    padding: 24px 0;
-    padding-right: 32px;
+    align-self: flex-end;
+    margin-right: 16px;
   }
+
+  display: flex;
+  flex-direction: column;
+  margin: 15px;
 `;
 
 export const ImageContainer = styled.div`
   width: 180px;
   height: 180px;
-  min-width: 180px;
   margin: auto 0;
   overflow: hidden;
   border: 1px solid #0f0c14;
@@ -39,6 +39,7 @@ export const CardContainer = styled.div`
   flex-direction: row;
   justify-content: space-between;
   border-radius: 10px;
+  max-height: 50%;
   margin: 15px;
 `;
 
@@ -76,14 +77,18 @@ export const StyledButton = styled.button`
   }
 `;
 
-export const StyledCardActions = styled.div`
+export const ButtonContainer = styled.div`
   && {
     margin: 0 auto;
     width: 90%;
+    /* transform: translate(-50%, 0);
+    left: 50%;
+    position: absolute;
+    bottom: 0; */
   }
 `;
 
-export const StyledContent = styled(CardContent)`
+export const StyledContent = styled.div`
   && {
     max-width: 50%;
     padding: 8px;
@@ -91,6 +96,8 @@ export const StyledContent = styled(CardContent)`
 `;
 
 export const InfoContent = styled.div`
-  display: inline-block;
-  padding: 0 16px;
+  && {
+    display: inline-block;
+    padding: 0 16px;
+  }
 `;
