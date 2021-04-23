@@ -11,14 +11,15 @@ export default createGlobalStyle`
   body {
     background: ${
       window.location.pathname === '/cadastro' ||
-      window.location.pathname === '/usuario/editar'
+      window.location.pathname === '/usuario/editar' ||
+      window.location.pathname === '/login'
         ? 'var(--purpleBackground)'
         : ''
     };
   }
 
   body, input, button {
-    font-family: 'Roboto Slab', serif;
+    font-family: 'Roboto Slab', serif !important;
     font-size: 1rem !important;
   }
 
