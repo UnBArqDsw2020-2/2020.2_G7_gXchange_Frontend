@@ -25,8 +25,11 @@ export const Container = styled.div`
 export const Logo = styled.div`
   img {
     width: 500px;
+    margin-bottom: 8px;
+
     @media (max-width: 550px) {
       width: 100%;
+      margin-bottom: 16px;
     }
   }
 `;
