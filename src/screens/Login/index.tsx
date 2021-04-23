@@ -10,9 +10,9 @@ import {
 } from './styles';
 import logo from '../../assets/logo-branca.png';
 import APIAdapter from '../../services/api';
-import { setToken } from '../../services/auth';
 import TextInput from '../../components/TextInput';
 import { openModal } from '../../store/GlobalModal';
+import { authenticationSuccessHandler } from '../../services/auth';
 
 const emailPatt = new RegExp(
   /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
@@ -44,9 +44,9 @@ const Login: React.FC = () => {
     }
   };
 
-  function signupRedirect() {
+  const signupRedirect = () => {
     history.push('/cadastro');
-  }
+  };
 
   const send = async () => {
     try {
@@ -62,7 +62,9 @@ const Login: React.FC = () => {
       };
 
       const response = await API.post('/login', params);
-      setToken(response.data.access);
+
+      authenticationSuccessHandler(response.data.access);
+
       history.push('/');
     } catch {
       dispatch(
