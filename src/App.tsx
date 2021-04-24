@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useLayoutEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import GlobalStyle from './globalStyle';
 import Routes, { BeforeLoginRoutes } from './routes/index';
 import {
@@ -9,10 +9,12 @@ import {
   authenticationSuccessHandler,
 } from './services/auth';
 import GlobalModal from './components/GlobalModal';
+import { openModal } from './store/GlobalModal';
 import APIAdapter from './services/api';
 import { StoreState } from './store';
 
 const App: React.FC = () => {
+  const dispatch = useDispatch();
   const { isLogged }: { isLogged: boolean } = useSelector(
     (store: StoreState) => store.userState,
   );
@@ -26,9 +28,16 @@ const App: React.FC = () => {
       authenticationSuccessHandler();
     } catch {
       authenticationFailHandler();
-      window.location.href = '/login';
+      dispatch(
+        openModal({
+          title: 'Sessão expirada',
+          type: 'error',
+          content: 'Sua sessão expirou. Por favor logue novamente',
+        }),
+      );
+      window.history.pushState({}, '', '/login');
     }
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     if (hasToken()) verifyToken();

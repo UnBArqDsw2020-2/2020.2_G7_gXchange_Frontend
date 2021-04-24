@@ -26,8 +26,8 @@ const Routes: React.FC = () => (
 export const BeforeLoginRoutes: React.FC = () => (
   <Router>
     <Switch>
-      <Route path={['/', '/login']} component={Login} />
       <Route exact path="/cadastro" component={Signup} />
+      <Route path={['/', '/login']} component={Login} />
 
       <Redirect to="/login" />
     </Switch>

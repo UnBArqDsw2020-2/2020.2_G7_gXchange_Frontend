@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
-import { getToken } from './auth';
+import { getToken, authenticationFailHandler } from './auth';
 
 const CONFIG: AxiosRequestConfig = {
   timeout: parseInt(process.env.REACT_APP_GXCHANGE_TIMEOUT || '5000', 10),
@@ -18,11 +18,26 @@ const addTokenToRequest = (config: AxiosRequestConfig = CONFIG) => ({
   },
 });
 
+const responseErrorHandler = (error: any) => {
+  const { response } = error;
+
+  if (response.status === 401) {
+    authenticationFailHandler();
+
+    if (window.location.pathname !== '/login')
+      window.history.pushState({}, '', '/login');
+  }
+
+  return Promise.reject(error);
+};
+
 export default class APIAdapter {
   private instance: AxiosInstance;
 
   constructor() {
     this.instance = axios.create(CONFIG);
+
+    this.instance.interceptors.response.use(undefined, responseErrorHandler);
   }
 
   async get(path: string, config?: AxiosRequestConfig) {
