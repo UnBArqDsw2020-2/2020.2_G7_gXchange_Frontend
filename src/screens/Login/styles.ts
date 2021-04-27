@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Avatar, Button } from '@material-ui/core';
+import { Button } from '@material-ui/core';
 
 export const Container = styled.div`
   display: flex;
@@ -24,24 +24,19 @@ export const Container = styled.div`
   }
 `;
 
-export const ProfileImageContainer = styled.div`
-  position: relative;
+export const Logo = styled.div`
+  img {
+    width: 500px;
+    margin-bottom: 8px;
 
-  svg {
-    right: 0;
-    bottom: 0;
-    position: absolute;
+    @media (max-width: 550px) {
+      width: 100%;
+      margin-bottom: 16px;
+    }
   }
 `;
 
-export const ProfileImage = styled(Avatar)`
-  width: 150px !important;
-  height: 150px !important;
-  font-size: 2.5rem !important;
-  border-radius: 100% !important;
-`;
-
-export const FormContainer = styled.div`
+export const FormContainer = styled.form`
   width: 500px;
 
   @media (max-width: 550px) {
@@ -53,8 +48,18 @@ export const SubmitBtn = styled(Button).attrs({
   fullWidth: true,
   variant: 'contained',
 })`
-  margin-top: 8px !important;
-  color: var(--white) !important;
-  border-radius: 16px !important;
-  background-color: var(--primary) !important;
+  && {
+    margin-top: 8px;
+    color: var(--white);
+    border-radius: 16px;
+    background-color: var(--primary);
+  }
+`;
+
+export const RedirectBtn = styled(Button)`
+  && {
+    margin-top: 20px;
+    text-transform: none;
+    font-size: 0.8rem !important;
+  }
 `;
