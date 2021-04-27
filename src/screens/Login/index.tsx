@@ -81,7 +81,7 @@ const Login: React.FC = () => {
 
   return (
     <Container>
-      <FormContainer>
+      <FormContainer onSubmit={send}>
         <Logo>
           <img src={logo} alt="" />
         </Logo>

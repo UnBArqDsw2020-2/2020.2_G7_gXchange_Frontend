@@ -12,9 +12,11 @@ export const Container = styled.div`
     color: var(--white);
   }
 
-  .MuiInputBase-formControl {
-    border-radius: 16px;
-    background-color: var(--inputBackground);
+  && {
+    .MuiInputBase-formControl {
+      border-radius: 16px;
+      background-color: var(--inputBackground);
+    }
   }
 
   @media (max-width: 550px) {
