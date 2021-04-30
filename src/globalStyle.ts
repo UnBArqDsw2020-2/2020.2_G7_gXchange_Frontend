@@ -8,7 +8,6 @@ export default createGlobalStyle`
     box-sizing: border-box;
   }
 
-
   body, input, button {
     font-family: 'Roboto Slab', serif !important;
     font-size: 1rem !important;

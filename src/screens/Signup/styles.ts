@@ -58,3 +58,7 @@ export const SubmitBtn = styled(Button).attrs({
   border-radius: 16px !important;
   background-color: var(--primary) !important;
 `;
+
+export const Link = styled.a`
+  color: var(--primary);
+`;
