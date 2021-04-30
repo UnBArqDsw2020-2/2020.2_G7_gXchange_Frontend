@@ -9,7 +9,7 @@ const CONFIG: AxiosRequestConfig = {
   },
 };
 
-export default class APIAdapter {
+export default class APIIBGE {
   private instance: AxiosInstance;
 
   constructor() {
