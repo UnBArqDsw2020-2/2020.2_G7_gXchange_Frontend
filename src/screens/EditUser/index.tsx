@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router';
 import { MdAddAPhoto } from 'react-icons/md';
 
@@ -13,13 +12,15 @@ import {
 
 import APIAdapter from '../../services/api';
 import TextInput from '../../components/TextInput';
-import { openModal } from '../../store/GlobalModal';
+import {
+  openRequestErrorModal,
+  openRequestSuccessModal,
+} from '../../utils/requestModal';
 
 const isStrInvalid = (value: string | null | undefined) => !value;
 
 const EditUser: React.FC = () => {
   const history = useHistory();
-  const dispatch = useDispatch();
 
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
@@ -71,23 +72,11 @@ const EditUser: React.FC = () => {
       // TODO User nickname
       await API.patch(`/user/${nicknameOld}`, params);
 
-      dispatch(
-        openModal({
-          title: 'Sucesso',
-          type: 'success',
-          content: 'Dados alterados com sucesso',
-        }),
-      );
+      openRequestSuccessModal('Dados alterados com sucesso');
 
       history.push('/');
     } catch (error) {
-      dispatch(
-        openModal({
-          title: 'Erro',
-          type: 'error',
-          content: error.message,
-        }),
-      );
+      openRequestErrorModal(error, error.message);
     } finally {
       setLoading(false);
     }
