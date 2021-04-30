@@ -16,16 +16,16 @@ export const Container = styled.div`
   justify-content: center;
   padding: 8px;
 
-  .MuiTypography-h1 {
+  &.MuiTypography-h1 {
     margin-top: 0.9rem;
     font-size: 2.5rem;
   }
 
-  .MuiTypography-h2 {
+  &.MuiTypography-h2 {
     font-size: 1.25rem;
     font-weight: bold;
   }
-  .MuiTypography-h3 {
+  &.MuiTypography-h3 {
     margin-top: 1em;
     font-size: 1.25rem;
   }

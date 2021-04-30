@@ -32,7 +32,7 @@ const Signup: React.FC = () => {
   const [phone, setPhone] = useState('');
   const [nickname, setNickname] = useState('');
   const [password, setPassword] = useState('');
-  const [checked, setChecked] = useState(false);
+  const [isTermChecked, setIsTermChecked] = useState(false);
   const [loading, setLoading] = useState(false);
   const [passwordConfirmation, setPasswordConfirmation] = useState('');
 
@@ -49,7 +49,7 @@ const Signup: React.FC = () => {
       throw Error('Confirmação de senha é um campo obrigatório');
     if (password !== passwordConfirmation)
       throw Error('A senha e a confirmação devem ser iguais');
-    if (!checked)
+    if (!isTermChecked)
       throw Error('É necessário estar de acordo com os termos de uso');
   };
 
@@ -170,9 +170,9 @@ const Signup: React.FC = () => {
           }
         />
         <Checkbox
-          checked={checked}
+          checked={isTermChecked}
           onChange={(e) => {
-            setChecked(e.target.checked);
+            setIsTermChecked(e.target.checked);
           }}
         />
         <span>
