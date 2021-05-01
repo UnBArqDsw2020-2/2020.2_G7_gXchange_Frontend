@@ -14,6 +14,7 @@ import EditUser from '../screens/EditUser';
 import EditOffer from '../screens/Offer/Edit';
 import Login from '../screens/Login';
 import Home from '../screens/Home';
+import UserOffer from '../screens/UserOffer';
 
 const Routes: React.FC = () => (
   <Router>
@@ -25,6 +26,7 @@ const Routes: React.FC = () => (
       <Route exact path="/oferta/visualizar" component={ShowOffer} />
       <Route exact path="/usuario/editar" component={EditUser} />
       <Route exact path="/feed" component={Feed} />
+      <Route exact path="/usuario/ofertas" component={UserOffer} />
 
       <Redirect to="/" />
     </Switch>
