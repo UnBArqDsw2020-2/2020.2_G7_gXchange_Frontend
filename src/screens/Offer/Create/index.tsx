@@ -4,6 +4,10 @@ import { useDispatch } from 'react-redux';
 import APIAdapter from '../../../services/api';
 import { openModal } from '../../../store/GlobalModal';
 import GameForm, { IPicture, IGameInfo } from '../GameForm';
+import {
+  openRequestErrorModal,
+  openRequestSuccessModal,
+} from '../../../utils/requestModal';
 import { compressImages, parsePicturesToBase64 } from '../../../utils/images';
 
 import { Container } from './styles';
@@ -83,7 +87,10 @@ const CreateOffer: React.FC = () => {
       condition,
       game_name: gameName,
       ...(price > 0 && { price }),
+<<<<<<< HEAD
       user: 'email@email.com',
+=======
+>>>>>>> f194380e05ef6a08a8c20fb1e2e66ed87aa77167
       is_trade: type === 1 || type === 3,
       ...(!!description && { description }),
       pictures: base64Images.map((item) => ({
@@ -108,21 +115,11 @@ const CreateOffer: React.FC = () => {
 
       await apiAdapter.post('/offer', getRequestData(offerData, base64Images));
 
-      dispatch(
-        openModal({
-          title: 'Sucesso',
-          type: 'success',
-          content: 'Anúncio criado com sucesso!',
-        }),
-      );
-    } catch {
-      dispatch(
-        openModal({
-          title: 'Erro',
-          type: 'error',
-          content:
-            'Não foi possível criar o anúncio. Tente novamente mais tarde.',
-        }),
+      openRequestSuccessModal('Anúncio criado com sucesso!');
+    } catch (error) {
+      openRequestErrorModal(
+        error,
+        'Não foi possível criar o anúncio. Tente novamente mais tarde.',
       );
     } finally {
       setLoading(false);
