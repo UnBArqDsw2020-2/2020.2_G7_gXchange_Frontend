@@ -87,10 +87,6 @@ const CreateOffer: React.FC = () => {
       condition,
       game_name: gameName,
       ...(price > 0 && { price }),
-<<<<<<< HEAD
-      user: 'email@email.com',
-=======
->>>>>>> f194380e05ef6a08a8c20fb1e2e66ed87aa77167
       is_trade: type === 1 || type === 3,
       ...(!!description && { description }),
       pictures: base64Images.map((item) => ({

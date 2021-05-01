@@ -103,7 +103,7 @@ const EditOffer: React.FC = () => {
       const base64Images = await parsePicturesToBase64(compressedPictures);
 
       await apiAdapter.patch(
-        '/offer/7', // TODO offer/offerId
+        '/offer/1', // TODO offer/offerId
         getRequestData(offerData, base64Images),
       );
       dispatch(

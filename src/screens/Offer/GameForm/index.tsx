@@ -80,7 +80,7 @@ const GameForm: React.FC<IGameFormProps> = ({
         const API = new APIAdapter();
 
         // TODO offer id, ou tirar esse update daq, sla
-        const data: IGameInfoGet = await API.get('/offer/7');
+        const data: IGameInfoGet = await API.get('/offer/1');
 
         if (data.is_trade) {
           if (data.price) {
