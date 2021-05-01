@@ -8,17 +8,8 @@ export default createGlobalStyle`
     box-sizing: border-box;
   }
 
-  body {
-    background: ${
-      window.location.pathname === '/cadastro' ||
-      window.location.pathname === '/usuario/editar'
-        ? 'var(--purpleBackground)'
-        : ''
-    };
-  }
-
   body, input, button {
-    font-family: 'Roboto Slab', serif;
+    font-family: 'Roboto Slab', serif !important;
     font-size: 1rem !important;
   }
 
