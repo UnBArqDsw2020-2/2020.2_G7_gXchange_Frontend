@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { Select, MenuItem } from '@material-ui/core';
 
+import imageCompression from 'browser-image-compression';
+import APIAdapter from '../../../services/api';
 import TextInput from '../../../components/TextInput';
 import OfferPicturesInput from '../PicturesInput';
 
@@ -10,6 +12,23 @@ import { FormContainer, SubmitBtn, LabelInputContainer } from './styles';
 export interface IPicture {
   file: File;
   url: string;
+}
+
+export interface IPicturGet {
+  bin: string;
+}
+
+export interface IGameInfoGet {
+  cep: string;
+  // eslint-disable-next-line camelcase
+  is_trade: number;
+  price: number;
+  // eslint-disable-next-line camelcase
+  game_name: string;
+  plataform: string;
+  condition: number;
+  description: string;
+  pictures: IPicturGet[];
 }
 
 export interface IGameInfo {
@@ -24,6 +43,7 @@ export interface IGameInfo {
 }
 
 interface IGameFormProps {
+  isEdit?: boolean;
   loading: boolean;
   handleSubmit(game: IGameInfo): void;
 }
@@ -40,7 +60,11 @@ const typeMap = {
   'Troca e Venda': 3,
 };
 
-const GameForm: React.FC<IGameFormProps> = ({ loading, handleSubmit }) => {
+const GameForm: React.FC<IGameFormProps> = ({
+  loading,
+  handleSubmit,
+  isEdit = false,
+}) => {
   const [cep, setCep] = useState('');
   const [type, setType] = useState(1);
   const [price, setPrice] = useState(0);
@@ -49,6 +73,52 @@ const GameForm: React.FC<IGameFormProps> = ({ loading, handleSubmit }) => {
   const [plataform, setPlataform] = useState('');
   const [description, setDescription] = useState('');
   const [pictures, setPictures] = useState<IPicture[]>([]);
+
+  useEffect(() => {
+    if (isEdit) {
+      const getData = async () => {
+        const API = new APIAdapter();
+
+        // TODO offer id, ou tirar esse update daq, sla
+        const data: IGameInfoGet = await API.get('/offer/1');
+
+        if (data.is_trade) {
+          if (data.price) {
+            setType(3);
+          } else {
+            setType(1);
+          }
+        } else {
+          setType(2);
+        }
+
+        setCep(data.cep);
+        setGameName(data.game_name);
+        setCondition(data.condition);
+        setPlataform(data.plataform);
+        setDescription(data.description);
+        setPrice(data.price);
+
+        const promises = data.pictures.map((item, idx) =>
+          imageCompression.getFilefromDataUrl(
+            `data:image/png;base64,${item.bin}`,
+            `file-${idx}`,
+          ),
+        );
+
+        const files = await Promise.all(promises);
+
+        setPictures(
+          files.map((item) => ({
+            file: item,
+            url: URL.createObjectURL(item),
+          })),
+        );
+      };
+
+      getData();
+    }
+  }, [isEdit]);
 
   const submitAction = () => {
     handleSubmit({

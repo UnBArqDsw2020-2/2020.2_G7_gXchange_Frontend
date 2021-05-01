@@ -11,6 +11,7 @@ import Term from '../screens/Term';
 import CreateOffer from '../screens/Offer/Create';
 import ShowOffer from '../screens/Offer/Show';
 import EditUser from '../screens/EditUser';
+import EditOffer from '../screens/Offer/Edit';
 import Login from '../screens/Login';
 import Home from '../screens/Home';
 
@@ -20,6 +21,7 @@ const Routes: React.FC = () => (
       <Route exact path="/" component={Home} />
       <Route exact path="/termo" component={Term} />
       <Route exact path="/oferta/cadastro" component={CreateOffer} />
+      <Route exact path="/oferta/editar" component={EditOffer} />
       <Route exact path="/oferta/visualizar" component={ShowOffer} />
       <Route exact path="/usuario/editar" component={EditUser} />
       <Route exact path="/feed" component={Feed} />
