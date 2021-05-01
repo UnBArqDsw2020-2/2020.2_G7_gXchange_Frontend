@@ -6,6 +6,7 @@ import {
   Redirect,
 } from 'react-router-dom';
 import Signup from '../screens/Signup';
+import Feed from '../screens/Offer/Feed';
 import Term from '../screens/Term';
 import CreateOffer from '../screens/Offer/Create';
 import ShowOffer from '../screens/Offer/Show';
@@ -21,6 +22,7 @@ const Routes: React.FC = () => (
       <Route exact path="/oferta/cadastro" component={CreateOffer} />
       <Route exact path="/oferta/visualizar" component={ShowOffer} />
       <Route exact path="/usuario/editar" component={EditUser} />
+      <Route exact path="/feed" component={Feed} />
 
       <Redirect to="/" />
     </Switch>

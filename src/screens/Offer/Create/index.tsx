@@ -83,7 +83,7 @@ const CreateOffer: React.FC = () => {
 
     return {
       cep,
-      plataform,
+      platform: plataform,
       condition,
       game_name: gameName,
       ...(price > 0 && { price }),

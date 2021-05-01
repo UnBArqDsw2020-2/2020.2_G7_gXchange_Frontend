@@ -24,6 +24,6 @@ export default createGlobalStyle`
     --inputBackground: #f2ebd5;
     --purpleBackground: #17092E;
     --imageChipBackground: #494949;
-    --lightGreenBackground: #E6F5F0;
+    --lightGreenBackground: #F2FBF5;
   }
 `;
