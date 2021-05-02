@@ -10,7 +10,7 @@ import {
 } from './services/auth';
 import GlobalModal from './components/GlobalModal';
 import { openModal } from './store/GlobalModal';
-import { changeUsername } from './store/User';
+import { changeUserData } from './store/User';
 import APIAdapter from './services/api';
 import { StoreState } from './store';
 import TopBar from './components/TopBar';
@@ -29,7 +29,7 @@ const App: React.FC = () => {
       });
 
       authenticationSuccessHandler();
-      dispatch(changeUsername(response.data.nickname));
+      dispatch(changeUserData(response.data));
     } catch {
       authenticationFailHandler();
       dispatch(
