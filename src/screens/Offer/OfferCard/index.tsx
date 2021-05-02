@@ -1,6 +1,10 @@
 import React, { useEffect } from 'react';
 import { CardMedia, Typography } from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab';
+import { Delete, Edit, Visibility } from '@material-ui/icons';
+import { useDispatch } from 'react-redux';
+import { openModal } from '../../../store/GlobalModal';
+import APIAdapter from '../../../services/api';
 import {
   StyledCard,
   CardContainer,
@@ -11,6 +15,8 @@ import {
   StyledContent,
   StyledButton,
   ButtonContainer,
+  StyledButtonUser,
+  ButtonContainerUser,
 } from './styles';
 
 import { OfferResume } from '../../../models';
@@ -18,9 +24,16 @@ import { OfferResume } from '../../../models';
 interface IOfferCard {
   offer: OfferResume;
   loading: boolean;
+  userOffer?: boolean;
 }
 
-const OfferCard: React.FC<IOfferCard> = ({ offer, loading }) => {
+const OfferCard: React.FC<IOfferCard> = ({
+  offer,
+  loading,
+  userOffer = false,
+}) => {
+  const dispatch = useDispatch();
+
   const [tags, setTags] = React.useState<Array<string>>([]);
 
   useEffect(() => {
@@ -39,6 +52,30 @@ const OfferCard: React.FC<IOfferCard> = ({ offer, loading }) => {
       setTags((state) => [...state, 'Usado']);
     }
   }, [offer.condition, offer.type]);
+
+  const handleDeleteOffer = (id: number) => {
+    try {
+      const API = new APIAdapter();
+
+      API.delete(`offer/${id}`);
+
+      dispatch(
+        openModal({
+          title: 'Sucesso',
+          type: 'success',
+          content: 'Anúncio deletado com sucesso!',
+        }),
+      );
+    } catch (error) {
+      dispatch(
+        openModal({
+          title: 'Erro',
+          type: 'error',
+          content: error.message,
+        }),
+      );
+    }
+  };
 
   return (
     <StyledCard>
@@ -85,9 +122,34 @@ const OfferCard: React.FC<IOfferCard> = ({ offer, loading }) => {
       <Typography className="Valor" gutterBottom variant="h5" component="h1">
         Valor: R${offer.price}
       </Typography>
-      <ButtonContainer>
-        <StyledButton>Ir para o Anúncio</StyledButton>
-      </ButtonContainer>
+
+      {!userOffer ? (
+        <ButtonContainer>
+          <StyledButton>Ir para o Anúncio</StyledButton>
+        </ButtonContainer>
+      ) : (
+        <ButtonContainerUser>
+          <StyledButtonUser>
+            <Visibility />
+            Visualizar
+          </StyledButtonUser>
+
+          <StyledButtonUser style={{ backgroundColor: '#2e7ca3' }}>
+            <Edit />
+            Editar
+          </StyledButtonUser>
+
+          <StyledButtonUser
+            onClick={() => {
+              handleDeleteOffer(offer.id);
+            }}
+            style={{ backgroundColor: '#a33131' }}
+          >
+            <Delete />
+            Deletar
+          </StyledButtonUser>
+        </ButtonContainerUser>
+      )}
     </StyledCard>
   );
 };
