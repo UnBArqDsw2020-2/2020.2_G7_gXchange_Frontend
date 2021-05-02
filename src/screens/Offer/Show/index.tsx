@@ -3,13 +3,13 @@ import { FiPhoneCall } from 'react-icons/fi';
 import { BsController } from 'react-icons/bs';
 import { GiPositionMarker } from 'react-icons/gi';
 import imageCompression from 'browser-image-compression';
-
+import { useParams } from 'react-router-dom';
 import Carousel, { CarouselStyleProps } from 'react-material-ui-carousel';
-
+import TopBar from '../../TopBar';
 import APIAdapter from '../../../services/api';
 import APIIBGE from '../../../services/api_ibge';
-
 import { IPicture } from '../GameForm';
+import { OfferResume } from '../../../models';
 import {
   Chip,
   Container,
@@ -26,6 +26,13 @@ export interface IPicturGet {
   bin: string;
 }
 
+export interface IUserInfoGet {
+  name: string;
+  ratings: number;
+  sells: number;
+  average: number;
+}
+
 export interface IGameInfoGet {
   cep: string;
   // eslint-disable-next-line camelcase
@@ -37,6 +44,7 @@ export interface IGameInfoGet {
   condition: number;
   description: string;
   pictures: IPicturGet[];
+  user: IUserInfoGet;
 }
 
 export interface Location {
@@ -60,15 +68,15 @@ const ShowOffer: React.FC = () => {
   const [phone, setPhone] = useState('');
   const states = ['Novo', 'Semi-novo', 'Usado'];
   const types = ['Troca', 'Venda'];
+  const { idOferta } = useParams<{ idOferta: string }>();
 
   useEffect(() => {
     const getData = async () => {
       const API = new APIAdapter();
       const APILocation = new APIIBGE();
 
-      const data: IGameInfoGet = await API.get('/offer/X');
+      const data: IGameInfoGet = await API.get(`/offer/${idOferta}`);
       const dataLocation: Location = await APILocation.get(data.cep);
-      const userData = await API.get('/user/X');
 
       setUf(dataLocation.uf);
       setBairro(dataLocation.bairro);
@@ -78,8 +86,7 @@ const ShowOffer: React.FC = () => {
       setPlataform(data.plataform);
       setDescription(data.description);
       setPrice(data.price);
-      setUserName(userData.name);
-      setPhone(userData.phones[0].phone_number.toString());
+      setUserName(data.user.name);
       // eslint-disable-next-line no-nested-ternary
       setType(data.is_trade ? (data.price ? 3 : 1) : 2);
       const promises = data.pictures.map((item, idx) =>
@@ -102,94 +109,97 @@ const ShowOffer: React.FC = () => {
   }, []);
 
   return (
-    <Container>
-      <h1>{gameName}</h1>
+    <>
+      <TopBar />
+      <Container>
+        <h1>{gameName}</h1>
 
-      <Carousel
-        autoPlay={false}
-        cycleNavigation={false}
-        navButtonsAlwaysVisible
-        indicators={!!pictures.length}
-        navButtonsProps={
-          {
-            className: '',
-            style: {
-              marginTop: '-20px',
-              display: '',
-            },
-          } as CarouselStyleProps
-        }
-      >
-        {pictures.map((picture, idx) => (
-          <label
-            htmlFor="offer-pictures"
-            key={picture?.url || `picture-${idx}`}
-          >
-            <PictureCard key={picture.file.name} imageUrl={picture.url}>
-              {idx === 0 ? (
-                <Chip label="Foto Principal" style={{ top: 16 }} />
-              ) : null}
-              <PictureCardFooter>
-                <Chip
-                  label={`${idx + 1}  /  ${pictures.length}`}
-                  style={{ height: 32 }}
-                />
-              </PictureCardFooter>
-            </PictureCard>
-          </label>
-        ))}
-      </Carousel>
+        <Carousel
+          autoPlay={false}
+          cycleNavigation={false}
+          navButtonsAlwaysVisible
+          indicators={!!pictures.length}
+          navButtonsProps={
+            {
+              className: '',
+              style: {
+                marginTop: '-20px',
+                display: '',
+              },
+            } as CarouselStyleProps
+          }
+        >
+          {pictures.map((picture, idx) => (
+            <label
+              htmlFor="offer-pictures"
+              key={picture?.url || `picture-${idx}`}
+            >
+              <PictureCard key={picture.file.name} imageUrl={picture.url}>
+                {idx === 0 ? (
+                  <Chip label="Foto Principal" style={{ top: 16 }} />
+                ) : null}
+                <PictureCardFooter>
+                  <Chip
+                    label={`${idx + 1}  /  ${pictures.length}`}
+                    style={{ height: 32 }}
+                  />
+                </PictureCardFooter>
+              </PictureCard>
+            </label>
+          ))}
+        </Carousel>
 
-      <GameAttr>
-        <p>R$ {price || 0} </p>
+        <GameAttr>
+          <p>R$ {price || 0} </p>
 
-        <div>
-          <Tag>{states[condition - 1]}</Tag>
-          {type === 1 ? (
-            <>
-              <Tag>{types[0]}</Tag>
-              <Tag>{types[1]}</Tag>
-            </>
-          ) : (
-            <Tag>{types[type - 1]}</Tag>
-          )}
-        </div>
-      </GameAttr>
+          <div>
+            <Tag>{states[condition - 1]}</Tag>
+            {type === 3 ? (
+              <>
+                <Tag>{types[0]}</Tag>
+                <Tag>{types[1]}</Tag>
+              </>
+            ) : (
+              <Tag>{types[type - 1]}</Tag>
+            )}
+          </div>
+        </GameAttr>
 
-      <InfoContainer>
-        <div>
-          <p>
-            <FiPhoneCall />
-            {`(${phone.substring(0, 2)})${phone.substring(2)}`}
-          </p>
+        <InfoContainer>
+          <div>
+            <p>
+              <FiPhoneCall />
+              {`(${phone.substring(0, 2)})${phone.substring(2)}`}
+            </p>
 
-          <p>
-            <GiPositionMarker />
-            {`${uf}, ${localidade}, ${bairro}`}
-          </p>
-        </div>
+            <p>
+              <GiPositionMarker />
+              {`${uf}, ${localidade}, ${bairro}`}
+            </p>
+          </div>
 
-        <div>
-          <p>
-            <BsController />
-            {plataform}
-          </p>
-        </div>
-      </InfoContainer>
+          <div>
+            <p>
+              <BsController />
+              {plataform}
+            </p>
+          </div>
+        </InfoContainer>
 
-      <UserContainer>
-        <div className="Foto">F</div>
+        <UserContainer>
+          <div className="Foto">F</div>
 
-        <div>
-          <p>{userName}</p>
-        </div>
-      </UserContainer>
+          <div>
+            <p>{userName}</p>
+          </div>
+        </UserContainer>
 
-      <ContainerDescription>
-        <h3>Descrição:</h3>
-        <p>{description}</p>
-      </ContainerDescription>
-    </Container>
+        <ContainerDescription>
+          <h3>Descrição:</h3>
+          <p>{description}</p>
+        </ContainerDescription>
+      </Container>
+    </>
   );
 };
 

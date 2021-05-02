@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-
+import { useHistory } from 'react-router';
 import APIAdapter from '../../../services/api';
 import { openModal } from '../../../store/GlobalModal';
 import GameForm, { IPicture, IGameInfo } from '../GameForm';
@@ -9,14 +9,14 @@ import {
   openRequestSuccessModal,
 } from '../../../utils/requestModal';
 import { compressImages, parsePicturesToBase64 } from '../../../utils/images';
-
+import TopBar from '../../TopBar';
 import { Container } from './styles';
 
 const isStrInvalid = (value: string | null | undefined) => !value;
 
 const CreateOffer: React.FC = () => {
   const dispatch = useDispatch();
-
+  const history = useHistory();
   const [loading, setLoading] = useState(false);
 
   const compressPictures = async (pics: IPicture[]): Promise<File[]> => {
@@ -110,8 +110,8 @@ const CreateOffer: React.FC = () => {
       const base64Images = await parsePicturesToBase64(compressedPictures);
 
       await apiAdapter.post('/offer', getRequestData(offerData, base64Images));
-
-      openRequestSuccessModal('Anúncio criado com sucesso!');
+      await openRequestSuccessModal('Anúncio criado com sucesso!');
+      history.push('/');
     } catch (error) {
       openRequestErrorModal(
         error,
@@ -123,9 +123,12 @@ const CreateOffer: React.FC = () => {
   };
 
   return (
-    <Container>
-      <GameForm loading={loading} handleSubmit={createOffer} />
-    </Container>
+    <>
+      <TopBar />
+      <Container>
+        <GameForm loading={loading} handleSubmit={createOffer} />
+      </Container>
+    </>
   );
 };
 

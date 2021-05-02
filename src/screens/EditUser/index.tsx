@@ -10,6 +10,8 @@ import {
   ProfileImageContainer,
 } from './styles';
 
+import { authenticationSuccessHandler } from '../../services/auth';
+import TopBar from '../TopBar';
 import APIAdapter from '../../services/api';
 import TextInput from '../../components/TextInput';
 import {
@@ -45,7 +47,7 @@ const EditUser: React.FC = () => {
   useEffect(() => {
     const getData = async () => {
       const API = new APIAdapter();
-      const data = await API.get('/user/INSIRA AQUI SEU USER');
+      const data = await API.get('/user/hugordo');
       setName(data.name);
       setPhone(data.phones[0].phone_number.toString());
       setNicknameOld(data.nickname);
@@ -69,7 +71,6 @@ const EditUser: React.FC = () => {
         phones: [{ phone_number: phone }],
       };
 
-      // TODO User nickname
       await API.patch(`/user/${nicknameOld}`, params);
 
       openRequestSuccessModal('Dados alterados com sucesso');
@@ -83,50 +84,53 @@ const EditUser: React.FC = () => {
   };
 
   return (
-    <Container>
-      <ProfileImageContainer>
-        <ProfileImage>A</ProfileImage>
+    <>
+      <TopBar />
+      <Container>
+        <ProfileImageContainer>
+          <ProfileImage>A</ProfileImage>
 
-        <MdAddAPhoto size="32" color="var(--white)" />
-      </ProfileImageContainer>
+          <MdAddAPhoto size="32" color="var(--white)" />
+        </ProfileImageContainer>
 
-      <FormContainer>
-        <TextInput
-          value={name}
-          disabled={loading}
-          variant="outlined"
-          label="Nome Completo"
-          placeholder="Digite o nome"
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-            setName(e.target.value)
-          }
-        />
+        <FormContainer>
+          <TextInput
+            value={name}
+            disabled={loading}
+            variant="outlined"
+            label="Nome Completo"
+            placeholder="Digite o nome"
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              setName(e.target.value)
+            }
+          />
 
-        <TextInput
-          value={nickname}
-          disabled={loading}
-          variant="outlined"
-          label="Nome de usuário (Apelido)"
-          placeholder="Digite o nome de usuário"
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-            setNickname(e.target.value)
-          }
-        />
+          <TextInput
+            value={nickname}
+            disabled={loading}
+            variant="outlined"
+            label="Nome de usuário (Apelido)"
+            placeholder="Digite o nome de usuário"
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              setNickname(e.target.value)
+            }
+          />
 
-        <TextInput
-          value={phone}
-          label="Telefone"
-          disabled={loading}
-          variant="outlined"
-          placeholder="Digite o telefone"
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-            setPhone(e.target.value)
-          }
-        />
+          <TextInput
+            value={phone}
+            label="Telefone"
+            disabled={loading}
+            variant="outlined"
+            placeholder="Digite o telefone"
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              setPhone(e.target.value)
+            }
+          />
 
-        <SubmitBtn onClick={send}>CONFIRMAR</SubmitBtn>
-      </FormContainer>
-    </Container>
+          <SubmitBtn onClick={send}>CONFIRMAR</SubmitBtn>
+        </FormContainer>
+      </Container>
+    </>
   );
 };
 

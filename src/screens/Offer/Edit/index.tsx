@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { useHistory } from 'react-router';
 import { openModal } from '../../../store/GlobalModal';
 import GameForm, { IPicture, IGameInfo } from '../GameForm';
 import { Container } from './styles';
 import { compressImages, parsePicturesToBase64 } from '../../../utils/images';
+import TopBar from '../../TopBar';
 import APIAdapter from '../../../services/api';
 
 const isStrInvalid = (value: string | null | undefined) => !value;
@@ -11,6 +13,7 @@ const isStrInvalid = (value: string | null | undefined) => !value;
 const EditOffer: React.FC = () => {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
+  const history = useHistory();
 
   const compressPictures = async (pics: IPicture[]): Promise<File[]> => {
     try {
@@ -49,6 +52,7 @@ const EditOffer: React.FC = () => {
       if (pictures.length <= 0)
         throw Error('O anúncio deve possuir pelo menos uma foto');
 
+      history.push('/');
       return true;
     } catch (error) {
       dispatch(
@@ -127,9 +131,12 @@ const EditOffer: React.FC = () => {
   };
 
   return (
-    <Container>
-      <GameForm loading={loading} handleSubmit={editOffer} isEdit />
-    </Container>
+    <>
+      <TopBar />
+      <Container>
+        <GameForm loading={loading} handleSubmit={editOffer} isEdit />
+      </Container>
+    </>
   );
 };
 

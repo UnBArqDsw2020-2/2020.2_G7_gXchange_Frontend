@@ -19,11 +19,11 @@ import UserOffer from '../screens/UserOffer';
 const Routes: React.FC = () => (
   <Router>
     <Switch>
-      <Route exact path="/" component={Home} />
+      <Route exact path="/" component={Feed} />
       <Route exact path="/termo" component={Term} />
       <Route exact path="/oferta/cadastro" component={CreateOffer} />
       <Route exact path="/oferta/editar" component={EditOffer} />
-      <Route exact path="/oferta/visualizar" component={ShowOffer} />
+      <Route exact path="/oferta/visualizar/:idOferta" component={ShowOffer} />
       <Route exact path="/usuario/editar" component={EditUser} />
       <Route exact path="/feed" component={Feed} />
       <Route exact path="/usuario/ofertas" component={UserOffer} />

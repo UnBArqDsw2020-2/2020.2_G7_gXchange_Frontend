@@ -10,6 +10,7 @@ import {
 } from './services/auth';
 import GlobalModal from './components/GlobalModal';
 import { openModal } from './store/GlobalModal';
+import { changeUsername } from './store/User';
 import APIAdapter from './services/api';
 import { StoreState } from './store';
 
@@ -22,10 +23,12 @@ const App: React.FC = () => {
   const verifyToken = useCallback(async () => {
     try {
       const apiAdapter = new APIAdapter();
-
-      await apiAdapter.post('/token/verify', { token: getToken() });
+      const response = await apiAdapter.post('/token/verify', {
+        token: getToken(),
+      });
 
       authenticationSuccessHandler();
+      dispatch(changeUsername(response.data.nickname));
     } catch {
       authenticationFailHandler();
       dispatch(
@@ -57,9 +60,7 @@ const App: React.FC = () => {
   return (
     <>
       {isLogged || hasToken() ? <Routes /> : <BeforeLoginRoutes />}
-
       <GlobalStyle />
-
       <GlobalModal />
     </>
   );
