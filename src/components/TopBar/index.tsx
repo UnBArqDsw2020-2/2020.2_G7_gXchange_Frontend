@@ -1,4 +1,4 @@
-import { IconButton, List } from '@material-ui/core';
+import { IconButton } from '@material-ui/core';
 import React, { useState } from 'react';
 import {
   BsPersonFill,
@@ -40,13 +40,14 @@ const TopBar: React.FC = () => {
     <Fill>
       <Top>
         <IconButton onClick={toggleDrawerStatus}>
-          <BsJustify />
+          <BsJustify size="24" style={{ color: 'var(--white)' }} />
         </IconButton>
         <Logo>
           <img src={logo} alt="logo" />
         </Logo>
         <div />
       </Top>
+
       <SideBar
         variant="temporary"
         open={DrawerStatus}

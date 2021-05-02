@@ -15,6 +15,8 @@ export const SideBar = styled(Drawer)`
 export const Top = styled.div`
   display: flex;
   padding: 4px;
+  height: 48px;
+  align-items: center;
   justify-content: space-between;
   position: fixed;
   z-index: 999;

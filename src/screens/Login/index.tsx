@@ -8,10 +8,10 @@ import {
   RedirectBtn,
   Logo,
 } from './styles';
-import logo from '../../assets/logo-branca.png';
 import APIAdapter from '../../services/api';
 import TextInput from '../../components/TextInput';
 import { openModal } from '../../store/GlobalModal';
+import logo from '../../assets/logo-branca-x-verde.png';
 import { authenticationSuccessHandler } from '../../services/auth';
 
 const emailPatt = new RegExp(

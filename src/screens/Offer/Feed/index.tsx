@@ -1,11 +1,9 @@
 import React, { useEffect } from 'react';
-import { Skeleton } from '@material-ui/lab';
 import APIAdapter from '../../../services/api';
 import { User, OfferResume as Offer } from '../../../models';
 import OfferCard from '../OfferCard';
 
 import { CardContainer, SkeletonCard, SkeletonRect } from './styles';
-import TopBar from '../../TopBar';
 import { parseBase64ToPictures } from '../../../utils/images';
 import { dataToOfferResume } from '../../../utils/data';
 
@@ -60,66 +58,63 @@ const Feed: React.FC = () => {
   }, []);
 
   return (
-    <>
-      <TopBar />
-      <CardContainer>
-        {!offers.length ? (
-          <>
-            <SkeletonCard
-              variant="rect"
-              width={600}
-              height={400}
-              animation="wave"
-            />
-            <SkeletonCard
-              variant="rect"
-              width={600}
-              height={400}
-              animation="wave"
-            />
+    <CardContainer>
+      {!offers.length ? (
+        <>
+          <SkeletonCard
+            variant="rect"
+            width={600}
+            height={400}
+            animation="wave"
+          />
+          <SkeletonCard
+            variant="rect"
+            width={600}
+            height={400}
+            animation="wave"
+          />
 
-            <SkeletonCard
-              variant="rect"
-              width={600}
-              height={400}
-              animation="wave"
-            />
+          <SkeletonCard
+            variant="rect"
+            width={600}
+            height={400}
+            animation="wave"
+          />
 
-            <SkeletonCard
-              variant="rect"
-              width={600}
-              height={400}
-              animation="wave"
-            />
+          <SkeletonCard
+            variant="rect"
+            width={600}
+            height={400}
+            animation="wave"
+          />
 
-            <SkeletonRect
-              variant="circle"
-              width="24px"
-              height="24px"
-              animation="pulse"
-            />
+          <SkeletonRect
+            variant="circle"
+            width="24px"
+            height="24px"
+            animation="pulse"
+          />
 
-            <SkeletonRect
-              variant="circle"
-              width="24px"
-              height="24px"
-              animation="pulse"
-            />
+          <SkeletonRect
+            variant="circle"
+            width="24px"
+            height="24px"
+            animation="pulse"
+          />
 
-            <SkeletonRect
-              variant="circle"
-              width="24px"
-              height="24px"
-              animation="pulse"
-            />
-          </>
-        ) : (
-          offers.map((offer) => (
-            <OfferCard loading={offer.loading} key={offer.id} offer={offer} />
-          ))
-        )}
-      </CardContainer>
-    </>
+          <SkeletonRect
+            variant="circle"
+            width="24px"
+            height="24px"
+            animation="pulse"
+          />
+        </>
+      ) : (
+        offers.map((offer) => (
+          <OfferCard loading={offer.loading} key={offer.id} offer={offer} />
+        ))
+      )}
+    </CardContainer>
   );
 };
 

@@ -5,11 +5,9 @@ import { GiPositionMarker } from 'react-icons/gi';
 import imageCompression from 'browser-image-compression';
 import { useParams } from 'react-router-dom';
 import Carousel, { CarouselStyleProps } from 'react-material-ui-carousel';
-import TopBar from '../../TopBar';
 import APIAdapter from '../../../services/api';
 import APIIBGE from '../../../services/api_ibge';
 import { IPicture } from '../GameForm';
-import { OfferResume } from '../../../models';
 import {
   Chip,
   Container,
@@ -109,97 +107,94 @@ const ShowOffer: React.FC = () => {
   }, []);
 
   return (
-    <>
-      <TopBar />
-      <Container>
-        <h1>{gameName}</h1>
+    <Container>
+      <h1>{gameName}</h1>
 
-        <Carousel
-          autoPlay={false}
-          cycleNavigation={false}
-          navButtonsAlwaysVisible
-          indicators={!!pictures.length}
-          navButtonsProps={
-            {
-              className: '',
-              style: {
-                marginTop: '-20px',
-                display: '',
-              },
-            } as CarouselStyleProps
-          }
-        >
-          {pictures.map((picture, idx) => (
-            <label
-              htmlFor="offer-pictures"
-              key={picture?.url || `picture-${idx}`}
-            >
-              <PictureCard key={picture.file.name} imageUrl={picture.url}>
-                {idx === 0 ? (
-                  <Chip label="Foto Principal" style={{ top: 16 }} />
-                ) : null}
-                <PictureCardFooter>
-                  <Chip
-                    label={`${idx + 1}  /  ${pictures.length}`}
-                    style={{ height: 32 }}
-                  />
-                </PictureCardFooter>
-              </PictureCard>
-            </label>
-          ))}
-        </Carousel>
+      <Carousel
+        autoPlay={false}
+        cycleNavigation={false}
+        navButtonsAlwaysVisible
+        indicators={!!pictures.length}
+        navButtonsProps={
+          {
+            className: '',
+            style: {
+              marginTop: '-20px',
+              display: '',
+            },
+          } as CarouselStyleProps
+        }
+      >
+        {pictures.map((picture, idx) => (
+          <label
+            htmlFor="offer-pictures"
+            key={picture?.url || `picture-${idx}`}
+          >
+            <PictureCard key={picture.file.name} imageUrl={picture.url}>
+              {idx === 0 ? (
+                <Chip label="Foto Principal" style={{ top: 16 }} />
+              ) : null}
+              <PictureCardFooter>
+                <Chip
+                  label={`${idx + 1}  /  ${pictures.length}`}
+                  style={{ height: 32 }}
+                />
+              </PictureCardFooter>
+            </PictureCard>
+          </label>
+        ))}
+      </Carousel>
 
-        <GameAttr>
-          <p>R$ {price || 0} </p>
+      <GameAttr>
+        <p>R$ {price || 0} </p>
 
-          <div>
-            <Tag>{states[condition - 1]}</Tag>
-            {type === 3 ? (
-              <>
-                <Tag>{types[0]}</Tag>
-                <Tag>{types[1]}</Tag>
-              </>
-            ) : (
-              <Tag>{types[type - 1]}</Tag>
-            )}
-          </div>
-        </GameAttr>
+        <div>
+          <Tag>{states[condition - 1]}</Tag>
+          {type === 3 ? (
+            <>
+              <Tag>{types[0]}</Tag>
+              <Tag>{types[1]}</Tag>
+            </>
+          ) : (
+            <Tag>{types[type - 1]}</Tag>
+          )}
+        </div>
+      </GameAttr>
 
-        <InfoContainer>
-          <div>
-            <p>
-              <FiPhoneCall />
-              {`(${phone.substring(0, 2)})${phone.substring(2)}`}
-            </p>
+      <InfoContainer>
+        <div>
+          <p>
+            <FiPhoneCall />
+            {`(${phone.substring(0, 2)})${phone.substring(2)}`}
+          </p>
 
-            <p>
-              <GiPositionMarker />
-              {`${uf}, ${localidade}, ${bairro}`}
-            </p>
-          </div>
+          <p>
+            <GiPositionMarker />
+            {`${uf}, ${localidade}, ${bairro}`}
+          </p>
+        </div>
 
-          <div>
-            <p>
-              <BsController />
-              {plataform}
-            </p>
-          </div>
-        </InfoContainer>
+        <div>
+          <p>
+            <BsController />
+            {plataform}
+          </p>
+        </div>
+      </InfoContainer>
 
-        <UserContainer>
-          <div className="Foto">F</div>
+      <UserContainer>
+        <div className="Foto">F</div>
 
-          <div>
-            <p>{userName}</p>
-          </div>
-        </UserContainer>
+        <div>
+          <p>{userName}</p>
+        </div>
+      </UserContainer>
 
-        <ContainerDescription>
-          <h3>Descrição:</h3>
-          <p>{description}</p>
-        </ContainerDescription>
-      </Container>
-    </>
+      <ContainerDescription>
+        <h3>Descrição:</h3>
+        <p>{description}</p>
+      </ContainerDescription>
+    </Container>
   );
 };
 

@@ -5,7 +5,6 @@ import { openModal } from '../../../store/GlobalModal';
 import GameForm, { IPicture, IGameInfo } from '../GameForm';
 import { Container } from './styles';
 import { compressImages, parsePicturesToBase64 } from '../../../utils/images';
-import TopBar from '../../TopBar';
 import APIAdapter from '../../../services/api';
 
 const isStrInvalid = (value: string | null | undefined) => !value;
@@ -131,12 +130,9 @@ const EditOffer: React.FC = () => {
   };
 
   return (
-    <>
-      <TopBar />
-      <Container>
-        <GameForm loading={loading} handleSubmit={editOffer} isEdit />
-      </Container>
-    </>
+    <Container>
+      <GameForm loading={loading} handleSubmit={editOffer} isEdit />
+    </Container>
   );
 };
 
