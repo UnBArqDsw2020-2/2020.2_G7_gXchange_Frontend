@@ -1,6 +1,7 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { CardMedia, Typography } from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab';
+import { useHistory } from 'react-router';
 import {
   StyledCard,
   CardContainer,
@@ -12,7 +13,7 @@ import {
   StyledButton,
   ButtonContainer,
 } from './styles';
-
+import APIIBGE from '../../../services/api_ibge';
 import { OfferResume } from '../../../models';
 
 interface IOfferCard {
@@ -20,15 +21,41 @@ interface IOfferCard {
   loading: boolean;
 }
 
+export interface Location {
+  uf: string;
+  bairro: string;
+  localidade: string;
+}
+
 const OfferCard: React.FC<IOfferCard> = ({ offer, loading }) => {
-  const [tags, setTags] = React.useState<Array<string>>([]);
+  const [tags, setTags] = useState<Array<string>>([]);
+  const [uf, setUf] = useState('');
+  const [bairro, setBairro] = useState('');
+  const [localidade, setLocalidade] = useState('');
+  const history = useHistory();
+  const path = `/oferta/visualizar/${offer.id.toString()}`;
+
+  const goto = () => {
+    history.push(path);
+  };
 
   useEffect(() => {
+    const getData = async () => {
+      const APILocation = new APIIBGE();
+      const dataLocation: Location = await APILocation.get(offer.cep);
+
+      setUf(dataLocation.uf);
+      setBairro(dataLocation.bairro);
+      setLocalidade(dataLocation.localidade);
+    };
+
+    getData();
+
     if (offer.type === 1 || offer.type === 3) {
-      setTags((state) => [...state, 'Venda']);
+      setTags((state) => [...state, 'Troca']);
     }
     if (offer.type === 2 || offer.type === 3) {
-      setTags((state) => [...state, 'Troca']);
+      setTags((state) => [...state, 'Venda']);
     }
 
     if (offer.condition === 1) {
@@ -78,7 +105,7 @@ const OfferCard: React.FC<IOfferCard> = ({ offer, loading }) => {
             Plataforma: {offer.platform}
           </Typography>
           <Typography gutterBottom variant="h6" component="h1">
-            Localização: Onde o Judas bateu as botas
+            {`${uf}, ${localidade}, ${bairro}`}
           </Typography>
         </div>
       </InfoContent>
@@ -86,7 +113,7 @@ const OfferCard: React.FC<IOfferCard> = ({ offer, loading }) => {
         Valor: R${offer.price}
       </Typography>
       <ButtonContainer>
-        <StyledButton>Ir para o Anúncio</StyledButton>
+        <StyledButton onClick={() => goto()}>Ir para o Anúncio</StyledButton>
       </ButtonContainer>
     </StyledCard>
   );
