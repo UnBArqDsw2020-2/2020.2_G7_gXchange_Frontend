@@ -34,26 +34,23 @@ export interface Location {
   localidade: string;
 }
 
-const OfferCard: React.FC<IOfferCard> = ({ offer, loading }) => {
-  const [tags, setTags] = useState<Array<string>>([]);
-  const [uf, setUf] = useState('');
-  const [bairro, setBairro] = useState('');
-  const [localidade, setLocalidade] = useState('');
-  const history = useHistory();
-  const path = `/oferta/visualizar/${offer.id.toString()}`;
-
-  const goto = () => {
-    history.push(path);
-  };
-
 const OfferCard: React.FC<IOfferCard> = ({
   offer,
   loading,
   userOffer = false,
 }) => {
+  const history = useHistory();
   const dispatch = useDispatch();
 
-  const [tags, setTags] = React.useState<Array<string>>([]);
+  const [uf, setUf] = useState('');
+  const [bairro, setBairro] = useState('');
+  const [tags, setTags] = useState<string[]>([]);
+  const [localidade, setLocalidade] = useState('');
+  const path = `/oferta/visualizar/${offer.id.toString()}`;
+
+  const goTo = () => {
+    history.push(path);
+  };
 
   useEffect(() => {
     const getData = async () => {
@@ -66,22 +63,23 @@ const OfferCard: React.FC<IOfferCard> = ({
     };
 
     getData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-    if (offer.type === 1 || offer.type === 3) {
-      setTags((state) => [...state, 'Troca']);
-    }
-    if (offer.type === 2 || offer.type === 3) {
-      setTags((state) => [...state, 'Venda']);
-    }
+  useEffect(() => {
+    const newTags = [...tags];
 
-    if (offer.condition === 1) {
-      setTags((state) => [...state, 'Novo']);
-    } else if (offer.condition === 2) {
-      setTags((state) => [...state, 'Semi-novo']);
-    } else {
-      setTags((state) => [...state, 'Usado']);
-    }
-  }, [offer.condition, offer.type]);
+    if (offer.type === 1 || offer.type === 3) newTags.push('Troca');
+
+    if (offer.type === 2 || offer.type === 3) newTags.push('Venda');
+
+    if (offer.condition === 1) newTags.push('Novo');
+    else if (offer.condition === 2) newTags.push('Semi-novo');
+    else newTags.push('Usado');
+
+    setTags(newTags);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleDeleteOffer = (id: number) => {
     try {
@@ -114,15 +112,18 @@ const OfferCard: React.FC<IOfferCard> = ({
           <Typography gutterBottom variant="h6" component="h1">
             {offer.gameName}
           </Typography>
+
           <Typography gutterBottom variant="h6" component="h1">
             Autor: {offer.author.name}
           </Typography>
+
           <TagContainer>
             {tags.map((label) => (
               <Tag label={label} />
             ))}
           </TagContainer>
         </StyledContent>
+
         {loading ? (
           <Skeleton variant="rect" animation="wave" width={180} height={180} />
         ) : (
@@ -139,30 +140,32 @@ const OfferCard: React.FC<IOfferCard> = ({
           </ImageContainer>
         )}
       </CardContainer>
+
       <InfoContent>
         <div>
           <Typography gutterBottom variant="h6" component="h1">
             Plataforma: {offer.platform}
           </Typography>
+
           <Typography gutterBottom variant="h6" component="h1">
             {`${uf}, ${localidade}, ${bairro}`}
           </Typography>
         </div>
       </InfoContent>
-      <Typography className="Valor" gutterBottom variant="h5" component="h1">
-        Valor: R${offer.price}
-      </Typography>
-      <ButtonContainer>
-        <StyledButton onClick={() => goto()}>Ir para o Anúncio</StyledButton>
-      </ButtonContainer>
+
+      {offer.type === 2 || offer.type === 3 ? (
+        <Typography className="Valor" gutterBottom variant="h5" component="h1">
+          Valor: R${offer.price}
+        </Typography>
+      ) : null}
 
       {!userOffer ? (
-        <ButtonContainer>
+        <ButtonContainer onClick={() => goTo()}>
           <StyledButton>Ir para o Anúncio</StyledButton>
         </ButtonContainer>
       ) : (
         <ButtonContainerUser>
-          <StyledButtonUser>
+          <StyledButtonUser onClick={() => goTo()}>
             <Visibility />
             Visualizar
           </StyledButtonUser>
