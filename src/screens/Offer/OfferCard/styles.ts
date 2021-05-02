@@ -88,6 +88,42 @@ export const ButtonContainer = styled.div`
   }
 `;
 
+export const StyledButtonUser = styled.button`
+  color: var(--white);
+  background-color: var(--primary);
+  border: 0;
+  align-self: center;
+  width: 100%;
+  height: 36px;
+  border-radius: 10px;
+  margin: 8px 4px 16px 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  svg {
+    margin-right: 2px;
+  }
+
+  &:hover {
+    background-color: #319c55;
+    cursor: pointer;
+  }
+`;
+
+export const ButtonContainerUser = styled.div`
+  display: flex;
+
+  && {
+    margin: 0 auto;
+    width: 90%;
+    /* transform: translate(-50%, 0);
+    left: 50%;
+    position: absolute;
+    bottom: 0; */
+  }
+`;
+
 export const StyledContent = styled.div`
   && {
     max-width: 50%;
