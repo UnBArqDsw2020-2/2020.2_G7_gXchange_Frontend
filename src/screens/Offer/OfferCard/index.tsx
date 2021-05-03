@@ -82,28 +82,41 @@ const OfferCard: React.FC<IOfferCard> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const handleDeleteOffer = async (id: number) => {
-    try {
-      const API = new APIAdapter();
+  const handleDeleteOffer = (id: number) => {
+    const deleteOffer = async () => {
+      try {
+        const API = new APIAdapter();
 
-      await API.delete(`offer/${id}`);
+        await API.delete(`offer/${id}`);
 
-      dispatch(
-        openModal({
-          title: 'Sucesso',
-          type: 'success',
-          content: 'Anúncio deletado com sucesso!',
-        }),
-      );
-    } catch (error) {
-      dispatch(
-        openModal({
-          title: 'Erro',
-          type: 'error',
-          content: error.message,
-        }),
-      );
-    }
+        dispatch(
+          openModal({
+            title: 'Sucesso',
+            type: 'success',
+            content: 'Anúncio deletado com sucesso!',
+          }),
+        );
+      } catch (error) {
+        dispatch(
+          openModal({
+            title: 'Erro',
+            type: 'error',
+            content: error.message,
+          }),
+        );
+      }
+    };
+
+    dispatch(
+      openModal({
+        type: 'question',
+        title: 'Tem certeza?',
+        content: 'Deseja realmente remover essa oferta?',
+        handleConfirm: async () => {
+          await deleteOffer();
+        },
+      }),
+    );
   };
 
   return (
