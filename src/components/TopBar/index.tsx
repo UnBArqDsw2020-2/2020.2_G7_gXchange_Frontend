@@ -28,7 +28,7 @@ import { StoreState } from '../../store';
 const TopBar: React.FC = () => {
   const history = useHistory();
 
-  const { nickname, average } = useSelector(
+  const { nickname, average, picture } = useSelector(
     (state: StoreState) => state.userState,
   );
 
@@ -60,7 +60,7 @@ const TopBar: React.FC = () => {
         ModalProps={{ onBackdropClick: toggleDrawerStatus }}
       >
         <ImageContainer>
-          <ProfileImage>
+          <ProfileImage src={picture.url}>
             {(nickname && nickname[0].toUpperCase()) || 'A'}
           </ProfileImage>
 

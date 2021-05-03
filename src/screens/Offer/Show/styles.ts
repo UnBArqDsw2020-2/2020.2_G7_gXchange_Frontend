@@ -1,5 +1,5 @@
-import styled, { css } from 'styled-components';
-import { Chip as MChip } from '@material-ui/core';
+import styled from 'styled-components';
+import { Avatar, Chip as MChip } from '@material-ui/core';
 
 interface IPictureCardProps {
   imageUrl?: string;
@@ -7,11 +7,11 @@ interface IPictureCardProps {
 
 export const Container = styled.div`
   display: flex;
+  margin: 0 auto;
+  max-width: 500px;
+  align-items: center;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
-  max-width: 500px;
-  margin: 0 auto;
 
   input {
     display: none;
@@ -36,25 +36,12 @@ export const PictureCard = styled.div<IPictureCardProps>`
   justify-content: center;
   box-shadow: 0 2px 2px rgba(0, 0, 0, 0.25);
 
-  ${({ imageUrl }) =>
-    imageUrl
-      ? css`
-          cursor: pointer;
-          background: ${`url(${imageUrl})`} no-repeat center center;
-          background-size: cover;
-          -o-background-size: cover;
-          -moz-background-size: cover;
-          -webkit-background-size: cover;
-        `
-      : css`
-          border: 3px dotted var(--primary);
-
-          &:hover {
-            opacity: 0.9;
-            cursor: pointer;
-            background: var(--lightGreenBackground);
-          }
-        `};
+  cursor: pointer;
+  background-size: cover;
+  -o-background-size: cover;
+  -moz-background-size: cover;
+  -webkit-background-size: cover;
+  background: ${({ imageUrl }) => `url(${imageUrl})`} no-repeat center center;
 `;
 
 export const AddPhotoContainer = styled.div`
@@ -74,17 +61,6 @@ export const Chip = styled(MChip)`
   position: absolute;
   color: var(--white) !important;
   background-color: var(--imageChipBackground) !important;
-`;
-
-export const PictureCardFooter = styled.div`
-  bottom: 16px;
-  display: flex;
-  position: absolute;
-  align-items: center;
-
-  svg:hover {
-    opacity: 0.7;
-  }
 `;
 
 export const GameAttr = styled.div`
@@ -127,6 +103,31 @@ export const Tag = styled.div`
   padding: 8px 30px;
   color: white;
   background-color: var(--primary);
+`;
+
+export const ImageContainer = styled.div`
+  width: 100%;
+  height: 20%;
+  display: flex;
+`;
+
+export const NameRating = styled.div`
+  display: flex;
+  margin-top: -4px;
+  margin-left: 8px;
+  flex-direction: column;
+
+  .user-name {
+    font-size: 1rem;
+    line-height: 36px;
+  }
+`;
+
+export const ProfileImage = styled(Avatar)`
+  && {
+    width: 64px;
+    height: 64px;
+  }
 `;
 
 export const InfoContainer = styled.div`
@@ -175,25 +176,12 @@ export const UserContainer = styled.div`
   width: 100%;
   display: flex;
   margin-bottom: 28px;
-
-  .Foto {
-    width: 48px;
-    height: 48px;
-    border-radius: 24px;
-    background-color: gray;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-right: 8px;
-  }
-
-  p {
-    font-size: 1rem;
-  }
+  justify-content: space-between;
 `;
 
 export const ContainerDescription = styled.div`
   width: 100%;
+  margin-bottom: 32px;
 
   h3 {
     font-size: 22px;
@@ -202,7 +190,8 @@ export const ContainerDescription = styled.div`
 
   p {
     width: 100%;
-    text-align: justify;
+    margin-left: 16px;
     text-justify: auto;
+    text-align: justify;
   }
 `;
