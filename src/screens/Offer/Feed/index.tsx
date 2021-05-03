@@ -19,6 +19,8 @@ const Feed: React.FC = () => {
       const API = new APIAdapter();
       const data = await API.get('/offer');
 
+      setOffers([]);
+
       data.forEach((item: any) => {
         const trade = item.price === null ? 1 : 3;
         const type: number = item.is_trade ? trade : 2;

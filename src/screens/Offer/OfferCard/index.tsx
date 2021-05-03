@@ -27,6 +27,7 @@ interface IOfferCard {
   offer: OfferResume;
   loading: boolean;
   userOffer?: boolean;
+  reloadOffers?: () => void;
 }
 
 export interface Location {
@@ -38,6 +39,7 @@ export interface Location {
 const OfferCard: React.FC<IOfferCard> = ({
   offer,
   loading,
+  reloadOffers,
   userOffer = false,
 }) => {
   const history = useHistory();
@@ -114,6 +116,8 @@ const OfferCard: React.FC<IOfferCard> = ({
         content: 'Deseja realmente remover essa oferta?',
         handleConfirm: async () => {
           await deleteOffer();
+
+          if (reloadOffers) reloadOffers();
         },
       }),
     );
