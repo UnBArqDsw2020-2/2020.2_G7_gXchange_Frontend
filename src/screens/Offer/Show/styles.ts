@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { Avatar, Chip as MChip } from '@material-ui/core';
 
 interface IPictureCardProps {
@@ -36,12 +36,16 @@ export const PictureCard = styled.div<IPictureCardProps>`
   justify-content: center;
   box-shadow: 0 2px 2px rgba(0, 0, 0, 0.25);
 
-  cursor: pointer;
-  background-size: cover;
-  -o-background-size: cover;
-  -moz-background-size: cover;
-  -webkit-background-size: cover;
-  background: ${({ imageUrl }) => `url(${imageUrl})`} no-repeat center center;
+  ${({ imageUrl }) =>
+    imageUrl &&
+    css`
+      cursor: pointer;
+      background: ${`url(${imageUrl})`} no-repeat center center;
+      background-size: cover;
+      -o-background-size: cover;
+      -moz-background-size: cover;
+      -webkit-background-size: cover;
+    `};
 `;
 
 export const AddPhotoContainer = styled.div`

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { CardMedia, Typography } from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab';
 import { useHistory } from 'react-router';
+import Rating from '@material-ui/lab/Rating';
 import { Delete, Edit, Visibility } from '@material-ui/icons';
 import { useDispatch } from 'react-redux';
 import { openModal } from '../../../store/GlobalModal';
@@ -67,7 +68,7 @@ const OfferCard: React.FC<IOfferCard> = ({
   }, []);
 
   useEffect(() => {
-    const newTags = [...tags];
+    const newTags = [];
 
     if (offer.type === 1 || offer.type === 3) newTags.push('Troca');
 
@@ -109,14 +110,16 @@ const OfferCard: React.FC<IOfferCard> = ({
     <StyledCard>
       <CardContainer>
         <StyledContent>
-          <Typography gutterBottom variant="h6" component="h1">
+          <Typography gutterBottom variant="h4" component="h1">
             {offer.gameName}
           </Typography>
 
-          <Typography gutterBottom variant="h6" component="h1">
-            Autor: {offer.author.name}
-          </Typography>
-
+          <div>
+            <Typography gutterBottom variant="subtitle1" component="p">
+              Autor: {offer.author.name}
+            </Typography>
+            <Rating readOnly value={offer.author.average || 0} />
+          </div>
           <TagContainer>
             {tags.map((label) => (
               <Tag label={label} />
@@ -142,19 +145,17 @@ const OfferCard: React.FC<IOfferCard> = ({
       </CardContainer>
 
       <InfoContent>
-        <div>
-          <Typography gutterBottom variant="h6" component="h1">
-            Plataforma: {offer.platform}
-          </Typography>
+        <Typography gutterBottom variant="subtitle1" component="p">
+          Plataforma: {offer.platform}
+        </Typography>
 
-          <Typography gutterBottom variant="h6" component="h1">
-            {`${uf}, ${localidade}, ${bairro}`}
-          </Typography>
-        </div>
+        <Typography gutterBottom variant="subtitle1" component="p">
+          {`${uf}, ${localidade}, ${bairro}`}
+        </Typography>
       </InfoContent>
 
       {offer.type === 2 || offer.type === 3 ? (
-        <Typography className="Valor" gutterBottom variant="h5" component="h1">
+        <Typography className="Valor" gutterBottom variant="h5" component="p">
           Valor: R${offer.price}
         </Typography>
       ) : null}

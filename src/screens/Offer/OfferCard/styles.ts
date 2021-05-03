@@ -19,9 +19,9 @@ export const StyledCard = styled.div`
     margin-right: 16px;
   }
 
+  margin: 16px;
   display: flex;
   flex-direction: column;
-  margin: 15px;
 `;
 
 export const ImageContainer = styled.div`
@@ -125,7 +125,7 @@ export const StyledContent = styled.div`
 
 export const InfoContent = styled.div`
   && {
+    margin: 0 24px;
     display: inline-block;
-    padding: 0 16px;
   }
 `;

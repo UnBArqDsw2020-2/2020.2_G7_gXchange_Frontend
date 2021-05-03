@@ -26,9 +26,9 @@ const Feed: React.FC = () => {
 
         const user: User = {
           name: item.user.name,
+          average: item.user.average,
+          sells: item.user.sells_amount,
           ratings: item.user.ratings_amount,
-          sells: item.sells_amount,
-          average: item.average,
         };
 
         // parse only one picture UPGRADE IF YOU CAN
