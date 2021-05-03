@@ -82,11 +82,11 @@ const OfferCard: React.FC<IOfferCard> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const handleDeleteOffer = (id: number) => {
+  const handleDeleteOffer = async (id: number) => {
     try {
       const API = new APIAdapter();
 
-      API.delete(`offer/${id}`);
+      await API.delete(`offer/${id}`);
 
       dispatch(
         openModal({

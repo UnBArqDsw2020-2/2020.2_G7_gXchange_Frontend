@@ -62,14 +62,14 @@ export const TagContainer = styled.div`
 `;
 
 export const StyledButton = styled.button`
-  color: var(--white);
-  background-color: var(--primary);
   border: 0;
-  align-self: center;
   width: 100%;
   height: 36px;
+  align-self: center;
   border-radius: 10px;
+  color: var(--white);
   margin: 8px 0px 16px 0px;
+  background-color: var(--primary);
 
   &:hover {
     background-color: #319c55;
@@ -85,17 +85,18 @@ export const ButtonContainer = styled.div`
 `;
 
 export const StyledButtonUser = styled.button`
-  color: var(--white);
-  background-color: var(--primary);
   border: 0;
-  align-self: center;
   width: 100%;
   height: 36px;
-  border-radius: 10px;
-  margin: 8px 4px 16px 4px;
   display: flex;
+  align-self: center;
   align-items: center;
+  border-radius: 10px;
+  color: var(--white);
   justify-content: center;
+  margin: 8px 4px 16px 4px;
+  font-size: 14px !important;
+  background-color: var(--primary);
 
   svg {
     margin-right: 2px;
