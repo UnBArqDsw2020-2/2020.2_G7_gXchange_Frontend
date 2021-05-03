@@ -6,7 +6,6 @@ import imageCompression from 'browser-image-compression';
 import { useParams } from 'react-router-dom';
 import Rating from '@material-ui/lab/Rating';
 import Carousel, { CarouselStyleProps } from 'react-material-ui-carousel';
-import { useSelector } from 'react-redux';
 import APIAdapter from '../../../services/api';
 import APIIBGE from '../../../services/api_ibge';
 import { IPicture } from '../GameForm';
@@ -23,7 +22,7 @@ import {
   ImageContainer,
   ContainerDescription,
 } from './styles';
-import { StoreState } from '../../../store';
+import { parseBase64ToPicture } from '../../../utils/images';
 
 export interface IPicturGet {
   bin: string;
@@ -31,9 +30,11 @@ export interface IPicturGet {
 
 export interface IUserInfoGet {
   name: string;
-  ratings: number;
   sells: number;
+  ratings: number;
   average: number;
+  picture: string;
+  phone: number | string;
 }
 
 export interface IGameInfoGet {
@@ -61,18 +62,18 @@ const MAX_PHOTOS = 5;
 const ShowOffer: React.FC = () => {
   const { idOferta } = useParams<{ idOferta: string }>();
 
-  const { picture, name, average, phones } = useSelector(
-    (state: StoreState) => state.userState,
-  );
-
   const [uf, setUf] = useState('');
   const [type, setType] = useState(1);
   const [price, setPrice] = useState(0);
   const [bairro, setBairro] = useState('');
   const [gameName, setGameName] = useState('');
+  const [userName, setUserName] = useState('');
   const [platform, setPlataform] = useState('');
   const [condition, setCondition] = useState(1);
+  const [userPhone, setUserPhone] = useState('');
   const [localidade, setLocalidade] = useState('');
+  const [userAverage, setUserAverage] = useState(0);
+  const [userPicture, setUserPicture] = useState('');
   const [description, setDescription] = useState('');
   const [pictures, setPictures] = useState<IPicture[]>([]);
 
@@ -97,6 +98,15 @@ const ShowOffer: React.FC = () => {
       setLocalidade(dataLocation.localidade);
       // eslint-disable-next-line no-nested-ternary
       setType(data.is_trade ? (data.price ? 3 : 1) : 2);
+
+      setUserName(data.user.name);
+      setUserPhone(`${data.user.phone}`);
+      setUserAverage(data.user.average);
+
+      const { url } = await parseBase64ToPicture(data.user.picture);
+
+      setUserPicture(url);
+
       const promises = data.pictures.map((item, idx) =>
         imageCompression.getFilefromDataUrl(
           `data:image/png;base64,${item.bin}`,
@@ -174,7 +184,7 @@ const ShowOffer: React.FC = () => {
           <p>
             <FiPhoneCall style={{ marginRight: '8px' }} />
 
-            {`(${phones[0].substring(0, 2)})  ${phones[0].substring(2)}`}
+            {`(${userPhone.substring(0, 2)})  ${userPhone.substring(2)}`}
           </p>
 
           <p>
@@ -194,17 +204,21 @@ const ShowOffer: React.FC = () => {
 
       <UserContainer>
         <ImageContainer>
-          {picture ? (
-            <ProfileImage src={picture.url} />
+          {userPicture ? (
+            <ProfileImage src={userPicture} />
           ) : (
             <ProfileImage>
-              {(name && name[0].toUpperCase()) || 'A'}
+              {(userName && userName[0].toUpperCase()) || 'A'}
             </ProfileImage>
           )}
 
           <NameRating>
-            <span className="user-name">{name}</span>
-            <Rating readOnly value={average} style={{ marginLeft: '-3px' }} />
+            <span className="user-name">{userName}</span>
+            <Rating
+              readOnly
+              value={userAverage}
+              style={{ marginLeft: '-3px' }}
+            />
           </NameRating>
         </ImageContainer>
       </UserContainer>
