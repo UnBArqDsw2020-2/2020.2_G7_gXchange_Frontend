@@ -4,32 +4,29 @@ import { AppThunk } from '../../store';
 
 interface IPicture {
   url: string;
-  file: File | null;
+  file: File;
 }
 
 export interface IUserState {
   name: string;
   nickname: string;
   phones: string[];
-  picture: IPicture;
   isLogged: boolean;
   sellsAmount: number;
   ratingsAmount: number;
   average: number | null;
+  picture: IPicture | null;
 }
 
 const initialState = (): IUserState => ({
   isLogged: false,
   name: '',
-  nickname: '',
   phones: [],
+  nickname: '',
+  average: null,
+  picture: null,
   sellsAmount: 0,
   ratingsAmount: 0,
-  average: null,
-  picture: {
-    url: '',
-    file: null,
-  },
 });
 
 export const UserSlice = createSlice({

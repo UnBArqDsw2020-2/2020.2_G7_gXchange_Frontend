@@ -148,12 +148,12 @@ const Signup: React.FC = () => {
               }
             }}
           />
-          {!picture ? (
+          {picture ? (
+            <ProfileImage src={picture.url} alt={picture.file.name} />
+          ) : (
             <ProfileImage>
               {(name && name[0].toUpperCase()) || 'A'}
             </ProfileImage>
-          ) : (
-            <ProfileImage src={picture.url} alt={picture.file.name} />
           )}
           <MdAddAPhoto size="32" color="var(--white)" />
         </label>

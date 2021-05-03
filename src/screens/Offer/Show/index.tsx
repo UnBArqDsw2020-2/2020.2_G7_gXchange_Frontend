@@ -194,9 +194,13 @@ const ShowOffer: React.FC = () => {
 
       <UserContainer>
         <ImageContainer>
-          <ProfileImage src={picture.url}>
-            {(name && name[0].toUpperCase()) || 'A'}
-          </ProfileImage>
+          {picture ? (
+            <ProfileImage src={picture.url} />
+          ) : (
+            <ProfileImage>
+              {(name && name[0].toUpperCase()) || 'A'}
+            </ProfileImage>
+          )}
 
           <NameRating>
             <span className="user-name">{name}</span>
