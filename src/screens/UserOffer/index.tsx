@@ -129,7 +129,7 @@ const UserOffer: React.FC = () => {
             animation="pulse"
           />
         </>
-      ) : offers.length ? (
+      ) : offers.length > 0 ? (
         offers.map((offer) => (
           <OfferCard
             reloadOffers={() => getData()}
