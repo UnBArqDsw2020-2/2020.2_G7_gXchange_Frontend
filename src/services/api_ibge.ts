@@ -2,7 +2,9 @@ import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
 
 const CONFIG: AxiosRequestConfig = {
   timeout: parseInt(process.env.REACT_APP_GXCHANGE_TIMEOUT || '5000', 10),
-  baseURL: `http://viacep.com.br/ws`,
+  baseURL: `${
+    process.env.NODE_ENV === 'production' ? 'https' : 'http'
+  }://viacep.com.br/ws`,
   headers: {
     Accept: 'application/json',
   },
