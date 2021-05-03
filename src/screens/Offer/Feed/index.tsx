@@ -18,7 +18,7 @@ const Feed: React.FC = () => {
     const getData = async () => {
       const API = new APIAdapter();
       const data = await API.get('/offer');
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
       data.forEach((item: any) => {
         const trade = item.price === null ? 1 : 3;
         const type: number = item.is_trade ? trade : 2;

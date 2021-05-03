@@ -13,7 +13,6 @@ import ShowOffer from '../screens/Offer/Show';
 import EditUser from '../screens/EditUser';
 import EditOffer from '../screens/Offer/Edit';
 import Login from '../screens/Login';
-import Home from '../screens/Home';
 import UserOffer from '../screens/UserOffer';
 
 const Routes: React.FC = () => (

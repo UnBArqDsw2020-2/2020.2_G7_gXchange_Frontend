@@ -52,21 +52,23 @@ export interface Location {
 }
 
 const ShowOffer: React.FC = () => {
+  const { idOferta } = useParams<{ idOferta: string }>();
+
+  const [phone] = useState('');
   const [uf, setUf] = useState('');
-  const [bairro, setBairro] = useState('');
-  const [localidade, setLocalidade] = useState('');
   const [type, setType] = useState(1);
   const [price, setPrice] = useState(0);
+  const [bairro, setBairro] = useState('');
   const [gameName, setGameName] = useState('');
+  const [userName, setUserName] = useState('');
   const [condition, setCondition] = useState(1);
   const [plataform, setPlataform] = useState('');
+  const [localidade, setLocalidade] = useState('');
   const [description, setDescription] = useState('');
   const [pictures, setPictures] = useState<IPicture[]>([]);
-  const [userName, setUserName] = useState('');
-  const [phone, setPhone] = useState('');
-  const states = ['Novo', 'Semi-novo', 'Usado'];
+
   const types = ['Troca', 'Venda'];
-  const { idOferta } = useParams<{ idOferta: string }>();
+  const states = ['Novo', 'Semi-novo', 'Usado'];
 
   useEffect(() => {
     const getData = async () => {
@@ -103,7 +105,9 @@ const ShowOffer: React.FC = () => {
         })),
       );
     };
+
     getData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

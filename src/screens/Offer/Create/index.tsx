@@ -9,7 +9,6 @@ import {
   openRequestSuccessModal,
 } from '../../../utils/requestModal';
 import { compressImages, parsePicturesToBase64 } from '../../../utils/images';
-import TopBar from '../../../components/TopBar';
 import { Container } from './styles';
 
 const isStrInvalid = (value: string | null | undefined) => !value;

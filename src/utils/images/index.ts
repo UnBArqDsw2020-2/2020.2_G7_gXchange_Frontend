@@ -44,7 +44,6 @@ export const parsePicturesToBase64 = async (files: File[]) => {
   return Promise.all(promises);
 };
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const parseBase64ToPicture = async (picture: string) => {
   const file = await imageCompression.getFilefromDataUrl(
     `data:image/png;base64,${picture}`,
@@ -59,7 +58,6 @@ export const parseBase64ToPicture = async (picture: string) => {
   return pic;
 };
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const parseBase64ToPictures = async (pictures: any[]) => {
   const promises = pictures.map((item, idx) =>
     imageCompression.getFilefromDataUrl(

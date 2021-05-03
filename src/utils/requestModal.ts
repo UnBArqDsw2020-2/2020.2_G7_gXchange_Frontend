@@ -5,7 +5,6 @@ export const openRequestSuccessModal = (content: string) => {
   store.dispatch(openModal({ title: 'Sucesso', type: 'success', content }));
 };
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const openRequestErrorModal = (error: any, content: string) => {
   const { response } = error;
 

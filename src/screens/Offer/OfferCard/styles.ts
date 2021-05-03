@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Card, Chip, CardContent } from '@material-ui/core';
+import { Chip } from '@material-ui/core';
 
 export const StyledCard = styled.div`
   && {
@@ -79,12 +79,8 @@ export const StyledButton = styled.button`
 
 export const ButtonContainer = styled.div`
   && {
-    margin: 0 auto;
     width: 90%;
-    /* transform: translate(-50%, 0);
-    left: 50%;
-    position: absolute;
-    bottom: 0; */
+    margin: 0 auto;
   }
 `;
 
@@ -115,12 +111,8 @@ export const ButtonContainerUser = styled.div`
   display: flex;
 
   && {
-    margin: 0 auto;
     width: 90%;
-    /* transform: translate(-50%, 0);
-    left: 50%;
-    position: absolute;
-    bottom: 0; */
+    margin: 0 auto;
   }
 `;
 
