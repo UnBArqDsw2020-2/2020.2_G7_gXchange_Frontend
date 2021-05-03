@@ -67,7 +67,7 @@ const GameForm: React.FC<IGameFormProps> = ({
 }) => {
   const [cep, setCep] = useState('');
   const [type, setType] = useState(1);
-  const [price, setPrice] = useState(0);
+  const [price, setPrice] = useState('');
   const [gameName, setGameName] = useState('');
   const [condition, setCondition] = useState(1);
   const [plataform, setPlataform] = useState('');
@@ -93,11 +93,11 @@ const GameForm: React.FC<IGameFormProps> = ({
         }
 
         setCep(data.cep);
+        setPrice(`${data.price}`);
         setGameName(data.game_name);
         setCondition(data.condition);
         setPlataform(data.plataform);
         setDescription(data.description);
-        setPrice(data.price);
 
         const promises = data.pictures.map((item, idx) =>
           imageCompression.getFilefromDataUrl(
@@ -124,12 +124,12 @@ const GameForm: React.FC<IGameFormProps> = ({
     handleSubmit({
       cep,
       type,
-      price,
       gameName,
       pictures,
       plataform,
       condition,
       description,
+      price: parseFloat(price.replace(',', '.')),
     });
   };
 
@@ -189,9 +189,9 @@ const GameForm: React.FC<IGameFormProps> = ({
             value={price}
             disabled={loading}
             variant="outlined"
-            placeholder="Digite a descrição do jogo"
+            placeholder="Digite preço do jogo"
             onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              setPrice(parseFloat(e.target.value))
+              setPrice(e.target.value)
             }
           />
         ) : null}
