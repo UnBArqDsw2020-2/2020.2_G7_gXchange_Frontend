@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { CardMedia, Typography } from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab';
-import { useHistory } from 'react-router';
+import { useHistory } from 'react-router-dom';
+import Rating from '@material-ui/lab/Rating';
 import { Delete, Edit, Visibility } from '@material-ui/icons';
 import { useDispatch } from 'react-redux';
 import { openModal } from '../../../store/GlobalModal';
@@ -26,6 +27,7 @@ interface IOfferCard {
   offer: OfferResume;
   loading: boolean;
   userOffer?: boolean;
+  reloadOffers?: () => void;
 }
 
 export interface Location {
@@ -34,26 +36,24 @@ export interface Location {
   localidade: string;
 }
 
-const OfferCard: React.FC<IOfferCard> = ({ offer, loading }) => {
-  const [tags, setTags] = useState<Array<string>>([]);
-  const [uf, setUf] = useState('');
-  const [bairro, setBairro] = useState('');
-  const [localidade, setLocalidade] = useState('');
-  const history = useHistory();
-  const path = `/oferta/visualizar/${offer.id.toString()}`;
-
-  const goto = () => {
-    history.push(path);
-  };
-
 const OfferCard: React.FC<IOfferCard> = ({
   offer,
   loading,
+  reloadOffers,
   userOffer = false,
 }) => {
+  const history = useHistory();
   const dispatch = useDispatch();
 
-  const [tags, setTags] = React.useState<Array<string>>([]);
+  const [uf, setUf] = useState('');
+  const [bairro, setBairro] = useState('');
+  const [tags, setTags] = useState<string[]>([]);
+  const [localidade, setLocalidade] = useState('');
+  const path = `/oferta/visualizar/${offer.id.toString()}`;
+
+  const goTo = () => {
+    history.push(path);
+  };
 
   useEffect(() => {
     const getData = async () => {
@@ -66,63 +66,84 @@ const OfferCard: React.FC<IOfferCard> = ({
     };
 
     getData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-    if (offer.type === 1 || offer.type === 3) {
-      setTags((state) => [...state, 'Troca']);
-    }
-    if (offer.type === 2 || offer.type === 3) {
-      setTags((state) => [...state, 'Venda']);
-    }
+  useEffect(() => {
+    const newTags = [];
 
-    if (offer.condition === 1) {
-      setTags((state) => [...state, 'Novo']);
-    } else if (offer.condition === 2) {
-      setTags((state) => [...state, 'Semi-novo']);
-    } else {
-      setTags((state) => [...state, 'Usado']);
-    }
-  }, [offer.condition, offer.type]);
+    if (offer.type === 1 || offer.type === 3) newTags.push('Troca');
+
+    if (offer.type === 2 || offer.type === 3) newTags.push('Venda');
+
+    if (offer.condition === 1) newTags.push('Novo');
+    else if (offer.condition === 2) newTags.push('Semi-novo');
+    else newTags.push('Usado');
+
+    setTags(newTags);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleDeleteOffer = (id: number) => {
-    try {
-      const API = new APIAdapter();
+    const deleteOffer = async () => {
+      try {
+        const API = new APIAdapter();
 
-      API.delete(`offer/${id}`);
+        await API.delete(`offer/${id}`);
 
-      dispatch(
-        openModal({
-          title: 'Sucesso',
-          type: 'success',
-          content: 'Anúncio deletado com sucesso!',
-        }),
-      );
-    } catch (error) {
-      dispatch(
-        openModal({
-          title: 'Erro',
-          type: 'error',
-          content: error.message,
-        }),
-      );
-    }
+        dispatch(
+          openModal({
+            title: 'Sucesso',
+            type: 'success',
+            content: 'Anúncio deletado com sucesso!',
+          }),
+        );
+      } catch (error) {
+        dispatch(
+          openModal({
+            title: 'Erro',
+            type: 'error',
+            content: error.message,
+          }),
+        );
+      }
+    };
+
+    dispatch(
+      openModal({
+        type: 'question',
+        title: 'Tem certeza?',
+        content: 'Deseja realmente remover essa oferta?',
+        handleConfirm: async () => {
+          await deleteOffer();
+
+          if (reloadOffers) reloadOffers();
+        },
+      }),
+    );
   };
 
   return (
     <StyledCard>
       <CardContainer>
         <StyledContent>
-          <Typography gutterBottom variant="h6" component="h1">
+          <Typography gutterBottom variant="h4" component="h1">
             {offer.gameName}
           </Typography>
-          <Typography gutterBottom variant="h6" component="h1">
-            Autor: {offer.author.name}
-          </Typography>
+
+          <div>
+            <Typography gutterBottom variant="subtitle1" component="p">
+              Autor: {offer.author.name}
+            </Typography>
+            <Rating readOnly value={offer.author.average || 0} />
+          </div>
           <TagContainer>
             {tags.map((label) => (
               <Tag label={label} />
             ))}
           </TagContainer>
         </StyledContent>
+
         {loading ? (
           <Skeleton variant="rect" animation="wave" width={180} height={180} />
         ) : (
@@ -139,30 +160,30 @@ const OfferCard: React.FC<IOfferCard> = ({
           </ImageContainer>
         )}
       </CardContainer>
+
       <InfoContent>
-        <div>
-          <Typography gutterBottom variant="h6" component="h1">
-            Plataforma: {offer.platform}
-          </Typography>
-          <Typography gutterBottom variant="h6" component="h1">
-            {`${uf}, ${localidade}, ${bairro}`}
-          </Typography>
-        </div>
+        <Typography gutterBottom variant="subtitle1" component="p">
+          Plataforma: {offer.platform}
+        </Typography>
+
+        <Typography gutterBottom variant="subtitle1" component="p">
+          {`${uf}, ${localidade}, ${bairro}`}
+        </Typography>
       </InfoContent>
-      <Typography className="Valor" gutterBottom variant="h5" component="h1">
-        Valor: R${offer.price}
-      </Typography>
-      <ButtonContainer>
-        <StyledButton onClick={() => goto()}>Ir para o Anúncio</StyledButton>
-      </ButtonContainer>
+
+      {offer.type === 2 || offer.type === 3 ? (
+        <Typography className="Valor" gutterBottom variant="h5" component="p">
+          Valor: R${offer.price}
+        </Typography>
+      ) : null}
 
       {!userOffer ? (
-        <ButtonContainer>
+        <ButtonContainer onClick={() => goTo()}>
           <StyledButton>Ir para o Anúncio</StyledButton>
         </ButtonContainer>
       ) : (
         <ButtonContainerUser>
-          <StyledButtonUser>
+          <StyledButtonUser onClick={() => goTo()}>
             <Visibility />
             Visualizar
           </StyledButtonUser>

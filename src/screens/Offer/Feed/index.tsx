@@ -1,11 +1,9 @@
 import React, { useEffect } from 'react';
-import { Skeleton } from '@material-ui/lab';
 import APIAdapter from '../../../services/api';
 import { User, OfferResume as Offer } from '../../../models';
 import OfferCard from '../OfferCard';
 
 import { CardContainer, SkeletonCard, SkeletonRect } from './styles';
-import TopBar from '../../TopBar';
 import { parseBase64ToPictures } from '../../../utils/images';
 import { dataToOfferResume } from '../../../utils/data';
 
@@ -20,7 +18,9 @@ const Feed: React.FC = () => {
     const getData = async () => {
       const API = new APIAdapter();
       const data = await API.get('/offer');
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
+      setOffers([]);
+
       data.forEach((item: any) => {
         const trade = item.price === null ? 1 : 3;
         const type: number = item.is_trade ? trade : 2;
@@ -28,9 +28,9 @@ const Feed: React.FC = () => {
 
         const user: User = {
           name: item.user.name,
+          average: item.user.average,
+          sells: item.user.sells_amount,
           ratings: item.user.ratings_amount,
-          sells: item.sells_amount,
-          average: item.average,
         };
 
         // parse only one picture UPGRADE IF YOU CAN
@@ -60,66 +60,63 @@ const Feed: React.FC = () => {
   }, []);
 
   return (
-    <>
-      <TopBar />
-      <CardContainer>
-        {!offers.length ? (
-          <>
-            <SkeletonCard
-              variant="rect"
-              width={600}
-              height={400}
-              animation="wave"
-            />
-            <SkeletonCard
-              variant="rect"
-              width={600}
-              height={400}
-              animation="wave"
-            />
+    <CardContainer>
+      {!offers.length ? (
+        <>
+          <SkeletonCard
+            variant="rect"
+            width={600}
+            height={400}
+            animation="wave"
+          />
+          <SkeletonCard
+            variant="rect"
+            width={600}
+            height={400}
+            animation="wave"
+          />
 
-            <SkeletonCard
-              variant="rect"
-              width={600}
-              height={400}
-              animation="wave"
-            />
+          <SkeletonCard
+            variant="rect"
+            width={600}
+            height={400}
+            animation="wave"
+          />
 
-            <SkeletonCard
-              variant="rect"
-              width={600}
-              height={400}
-              animation="wave"
-            />
+          <SkeletonCard
+            variant="rect"
+            width={600}
+            height={400}
+            animation="wave"
+          />
 
-            <SkeletonRect
-              variant="circle"
-              width="24px"
-              height="24px"
-              animation="pulse"
-            />
+          <SkeletonRect
+            variant="circle"
+            width="24px"
+            height="24px"
+            animation="pulse"
+          />
 
-            <SkeletonRect
-              variant="circle"
-              width="24px"
-              height="24px"
-              animation="pulse"
-            />
+          <SkeletonRect
+            variant="circle"
+            width="24px"
+            height="24px"
+            animation="pulse"
+          />
 
-            <SkeletonRect
-              variant="circle"
-              width="24px"
-              height="24px"
-              animation="pulse"
-            />
-          </>
-        ) : (
-          offers.map((offer) => (
-            <OfferCard loading={offer.loading} key={offer.id} offer={offer} />
-          ))
-        )}
-      </CardContainer>
-    </>
+          <SkeletonRect
+            variant="circle"
+            width="24px"
+            height="24px"
+            animation="pulse"
+          />
+        </>
+      ) : (
+        offers.map((offer) => (
+          <OfferCard loading={offer.loading} key={offer.id} offer={offer} />
+        ))
+      )}
+    </CardContainer>
   );
 };
 

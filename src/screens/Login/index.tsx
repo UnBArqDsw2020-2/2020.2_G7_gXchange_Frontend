@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { useHistory } from 'react-router';
+import { useHistory } from 'react-router-dom';
 import {
   SubmitBtn,
   Container,
@@ -8,10 +8,10 @@ import {
   RedirectBtn,
   Logo,
 } from './styles';
-import logo from '../../assets/logo-branca.png';
 import APIAdapter from '../../services/api';
 import TextInput from '../../components/TextInput';
 import { openModal } from '../../store/GlobalModal';
+import logo from '../../assets/logo-branca-x-verde.png';
 import { authenticationSuccessHandler } from '../../services/auth';
 
 const emailPatt = new RegExp(

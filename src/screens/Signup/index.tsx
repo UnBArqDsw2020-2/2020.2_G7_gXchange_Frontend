@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { useHistory } from 'react-router';
-import { Checkbox } from '@material-ui/core';
+import { useHistory } from 'react-router-dom';
 import { MdAddAPhoto } from 'react-icons/md';
 
 import {
@@ -10,12 +9,17 @@ import {
   ProfileImage,
   FormContainer,
   ProfileImageContainer,
-  Link,
 } from './styles';
 
 import APIAdapter from '../../services/api';
 import TextInput from '../../components/TextInput';
 import { openModal } from '../../store/GlobalModal';
+import { compressImage, parsePictureToBase64 } from '../../utils/images';
+
+interface IPicture {
+  file: File;
+  url: string;
+}
 
 const emailPatt = new RegExp(
   /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
@@ -32,9 +36,9 @@ const Signup: React.FC = () => {
   const [phone, setPhone] = useState('');
   const [nickname, setNickname] = useState('');
   const [password, setPassword] = useState('');
-  const [isTermChecked, setIsTermChecked] = useState(false);
   const [loading, setLoading] = useState(false);
   const [passwordConfirmation, setPasswordConfirmation] = useState('');
+  const [picture, setPicture] = useState<IPicture | null>(null);
 
   const validateFields = () => {
     if (isStrInvalid(name)) throw Error('Nome é um campo obrigatório');
@@ -49,17 +53,41 @@ const Signup: React.FC = () => {
       throw Error('Confirmação de senha é um campo obrigatório');
     if (password !== passwordConfirmation)
       throw Error('A senha e a confirmação devem ser iguais');
-    if (!isTermChecked)
-      throw Error('É necessário estar de acordo com os termos de uso');
+  };
+
+  const compressPicture = async (pic: IPicture): Promise<File | null> => {
+    try {
+      setLoading(true);
+
+      return await compressImage(pic.file);
+    } catch {
+      dispatch(
+        openModal({
+          title: 'Erro',
+          type: 'error',
+          content: 'Não foi possível concluir o cadastro. Tente novamente.',
+        }),
+      );
+    } finally {
+      setLoading(false);
+    }
+    return null;
   };
 
   const send = async () => {
     try {
       const API = new APIAdapter();
+      let base64Image = '';
 
       validateFields();
 
       setLoading(true);
+
+      if (picture) {
+        const compressedPicture = await compressPicture(picture);
+        if (compressedPicture)
+          base64Image = await parsePictureToBase64(compressedPicture);
+      }
 
       const params = {
         email,
@@ -67,6 +95,7 @@ const Signup: React.FC = () => {
         nickname,
         phones: [{ phone_number: phone }],
         password,
+        picture: base64Image.replace('data:image/png;base64,', ''),
       };
 
       await API.post('/user', params);
@@ -93,12 +122,41 @@ const Signup: React.FC = () => {
     }
   };
 
+  const handleInputChange = async (tempPicture: FileList) => {
+    setLoading(true);
+
+    const newFile: IPicture = {
+      file: tempPicture[0],
+      url: URL.createObjectURL(tempPicture[0]),
+    };
+
+    setPicture(newFile);
+
+    setLoading(false);
+  };
+
   return (
     <Container>
       <ProfileImageContainer>
-        <ProfileImage>{(name && name[0].toUpperCase()) || 'A'}</ProfileImage>
-
-        <MdAddAPhoto size="32" color="var(--white)" />
+        <label htmlFor="profile-photo">
+          <input
+            type="file"
+            id="profile-photo"
+            onChange={(e) => {
+              if (e.target.files && e.target.files.length > 0) {
+                handleInputChange(e.target.files);
+              }
+            }}
+          />
+          {picture ? (
+            <ProfileImage src={picture.url} alt={picture.file.name} />
+          ) : (
+            <ProfileImage>
+              {(name && name[0].toUpperCase()) || 'A'}
+            </ProfileImage>
+          )}
+          <MdAddAPhoto size="32" color="var(--white)" />
+        </label>
       </ProfileImageContainer>
 
       <FormContainer>
@@ -169,18 +227,7 @@ const Signup: React.FC = () => {
             setPasswordConfirmation(e.target.value)
           }
         />
-        <Checkbox
-          checked={isTermChecked}
-          onChange={(e) => {
-            setIsTermChecked(e.target.checked);
-          }}
-        />
-        <span>
-          Declaro que li e concordo com os{' '}
-          <Link href="termo" target="_blank" rel="noopener noreferrer">
-            Termos de Uso
-          </Link>
-        </span>
+
         <SubmitBtn onClick={send}>CADASTRAR</SubmitBtn>
       </FormContainer>
     </Container>

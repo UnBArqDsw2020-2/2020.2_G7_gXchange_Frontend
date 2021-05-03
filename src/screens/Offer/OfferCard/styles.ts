@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Card, Chip, CardContent } from '@material-ui/core';
+import { Chip } from '@material-ui/core';
 
 export const StyledCard = styled.div`
   && {
@@ -19,9 +19,9 @@ export const StyledCard = styled.div`
     margin-right: 16px;
   }
 
+  margin: 16px;
   display: flex;
   flex-direction: column;
-  margin: 15px;
 `;
 
 export const ImageContainer = styled.div`
@@ -62,14 +62,14 @@ export const TagContainer = styled.div`
 `;
 
 export const StyledButton = styled.button`
-  color: var(--white);
-  background-color: var(--primary);
   border: 0;
-  align-self: center;
   width: 100%;
   height: 36px;
+  align-self: center;
   border-radius: 10px;
+  color: var(--white);
   margin: 8px 0px 16px 0px;
+  background-color: var(--primary);
 
   &:hover {
     background-color: #319c55;
@@ -79,27 +79,24 @@ export const StyledButton = styled.button`
 
 export const ButtonContainer = styled.div`
   && {
-    margin: 0 auto;
     width: 90%;
-    /* transform: translate(-50%, 0);
-    left: 50%;
-    position: absolute;
-    bottom: 0; */
+    margin: 0 auto;
   }
 `;
 
 export const StyledButtonUser = styled.button`
-  color: var(--white);
-  background-color: var(--primary);
   border: 0;
-  align-self: center;
   width: 100%;
   height: 36px;
-  border-radius: 10px;
-  margin: 8px 4px 16px 4px;
   display: flex;
+  align-self: center;
   align-items: center;
+  border-radius: 10px;
+  color: var(--white);
   justify-content: center;
+  margin: 8px 4px 16px 4px;
+  font-size: 14px !important;
+  background-color: var(--primary);
 
   svg {
     margin-right: 2px;
@@ -115,12 +112,8 @@ export const ButtonContainerUser = styled.div`
   display: flex;
 
   && {
-    margin: 0 auto;
     width: 90%;
-    /* transform: translate(-50%, 0);
-    left: 50%;
-    position: absolute;
-    bottom: 0; */
+    margin: 0 auto;
   }
 `;
 
@@ -133,7 +126,7 @@ export const StyledContent = styled.div`
 
 export const InfoContent = styled.div`
   && {
+    margin: 0 24px;
     display: inline-block;
-    padding: 0 16px;
   }
 `;

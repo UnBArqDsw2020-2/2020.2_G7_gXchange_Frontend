@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { useHistory } from 'react-router';
+import { useHistory } from 'react-router-dom';
 import APIAdapter from '../../../services/api';
 import { openModal } from '../../../store/GlobalModal';
 import GameForm, { IPicture, IGameInfo } from '../GameForm';
@@ -9,7 +9,6 @@ import {
   openRequestSuccessModal,
 } from '../../../utils/requestModal';
 import { compressImages, parsePicturesToBase64 } from '../../../utils/images';
-import TopBar from '../../TopBar';
 import { Container } from './styles';
 
 const isStrInvalid = (value: string | null | undefined) => !value;
@@ -123,12 +122,9 @@ const CreateOffer: React.FC = () => {
   };
 
   return (
-    <>
-      <TopBar />
-      <Container>
-        <GameForm loading={loading} handleSubmit={createOffer} />
-      </Container>
-    </>
+    <Container>
+      <GameForm loading={loading} handleSubmit={createOffer} />
+    </Container>
   );
 };
 

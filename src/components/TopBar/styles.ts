@@ -1,11 +1,22 @@
 import styled from 'styled-components';
-import { Drawer, Button } from '@material-ui/core';
+import { Avatar, Drawer, Button } from '@material-ui/core';
 
 export const SideBar = styled(Drawer)`
   && {
     .MuiPaper-root {
+      width: 250px;
       background: var(--lightGreenBackground);
+
+      button {
+        margin: 8px 16px;
+      }
+
+      @media (max-width: 400px) {
+        width: 70%;
+        max-width: 100%;
+      }
     }
+
     .MuiPaper-root p {
       margin: 16px 16px 0px 16px;
     }
@@ -15,6 +26,8 @@ export const SideBar = styled(Drawer)`
 export const Top = styled.div`
   display: flex;
   padding: 4px;
+  height: 48px;
+  align-items: center;
   justify-content: space-between;
   position: fixed;
   z-index: 999;
@@ -30,29 +43,31 @@ export const Fill = styled.div`
 `;
 
 export const ImageContainer = styled.div`
+  width: 100%;
+  height: 20%;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 100%;
-  height: 20%;
   background-color: var(--primary);
+`;
 
-  .Foto {
-    margin: 0px 8px;
-    width: 48px;
-    height: 48px;
-    border-radius: 24px;
-    background-color: gray;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
+export const NameRating = styled.div`
+  display: flex;
+  margin-top: -4px;
+  margin-left: 8px;
+  flex-direction: column;
 
-  p {
-    line-height: 37px;
+  .user-name {
     font-size: 1rem;
-    margin: initial !important;
+    line-height: 36px;
     color: var(--white);
+  }
+`;
+
+export const ProfileImage = styled(Avatar)`
+  && {
+    width: 64px;
+    height: 64px;
   }
 `;
 

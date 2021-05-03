@@ -12,11 +12,13 @@ export const Container = styled.div`
     color: var(--white);
   }
 
-  && {
-    .MuiInputBase-formControl {
-      border-radius: 16px;
-      background-color: var(--inputBackground);
-    }
+  .MuiInputBase-formControl {
+    border-radius: 16px;
+    background-color: var(--inputBackground);
+  }
+
+  #profile-photo {
+    display: none;
   }
 
   @media (max-width: 550px) {
@@ -35,10 +37,16 @@ export const ProfileImageContainer = styled.div`
 `;
 
 export const ProfileImage = styled(Avatar)`
-  width: 150px !important;
-  height: 150px !important;
-  font-size: 2.5rem !important;
-  border-radius: 100% !important;
+  && {
+    width: 150px;
+    height: 150px;
+    font-size: 2.5rem;
+    border-radius: 100%;
+  }
+  &:hover {
+    opacity: 0.9;
+    cursor: pointer;
+  }
 `;
 
 export const FormContainer = styled.div`
@@ -57,8 +65,4 @@ export const SubmitBtn = styled(Button).attrs({
   color: var(--white) !important;
   border-radius: 16px !important;
   background-color: var(--primary) !important;
-`;
-
-export const Link = styled.a`
-  color: var(--primary);
 `;
