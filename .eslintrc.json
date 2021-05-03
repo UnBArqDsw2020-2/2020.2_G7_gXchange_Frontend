@@ -24,7 +24,11 @@
         "@typescript-eslint"
     ],
     "rules": {
+        "react/prop-types": 0,
+        "no-nested-ternary": 0,
+        "react/jsx-props-no-spreading": 0,
         "no-use-before-define": "off",
+        "@typescript-eslint/no-explicit-any": 0,
         "@typescript-eslint/no-use-before-define": ["error"],
         "prettier/prettier": "error",
         "react/jsx-one-expression-per-line": "off",
