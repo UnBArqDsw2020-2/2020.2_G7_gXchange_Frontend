@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { useHistory } from 'react-router';
+import { useHistory } from 'react-router-dom';
 import { openModal } from '../../../store/GlobalModal';
 import GameForm, { IPicture, IGameInfo } from '../GameForm';
 import { Container } from './styles';

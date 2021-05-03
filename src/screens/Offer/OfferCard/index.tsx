@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { CardMedia, Typography } from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab';
-import { useHistory } from 'react-router';
+import { useHistory } from 'react-router-dom';
 import Rating from '@material-ui/lab/Rating';
 import { Delete, Edit, Visibility } from '@material-ui/icons';
 import { useDispatch } from 'react-redux';

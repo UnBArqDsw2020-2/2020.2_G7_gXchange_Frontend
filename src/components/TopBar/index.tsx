@@ -6,9 +6,8 @@ import {
   BsJustify,
   BsFolderFill,
 } from 'react-icons/bs';
-import { FaThList, FaSignOutAlt } from 'react-icons/fa';
 import Rating from '@material-ui/lab/Rating';
-import { useHistory } from 'react-router';
+import { FaThList, FaSignOutAlt } from 'react-icons/fa';
 
 import { useSelector } from 'react-redux';
 import {
@@ -26,8 +25,6 @@ import { authenticationFailHandler } from '../../services/auth';
 import { StoreState } from '../../store';
 
 const TopBar: React.FC = () => {
-  const history = useHistory();
-
   const { name, nickname, average, picture } = useSelector(
     (state: StoreState) => state.userState,
   );
@@ -76,23 +73,27 @@ const TopBar: React.FC = () => {
 
         <RedirectBtn
           style={{ marginTop: '32px' }}
-          onClick={() => history.push('/')}
+          onClick={() => window.location.replace('/')}
         >
           <FaThList />
           &nbsp; Feed
         </RedirectBtn>
 
-        <RedirectBtn onClick={() => history.push('/oferta/cadastro')}>
+        <RedirectBtn
+          onClick={() => window.location.replace('/oferta/cadastro')}
+        >
           <BsFillPlusCircleFill />
           &nbsp; Adicionar oferta
         </RedirectBtn>
 
-        <RedirectBtn onClick={() => history.push('/oferta/cadastro')}>
+        <RedirectBtn
+          onClick={() => window.location.replace('/usuario/ofertas/')}
+        >
           <BsFolderFill />
           &nbsp; Minhas ofertas
         </RedirectBtn>
 
-        <RedirectBtn onClick={() => history.push('/usuario/editar')}>
+        <RedirectBtn onClick={() => window.location.replace('/usuario/editar')}>
           <BsPersonFill />
           &nbsp; Editar perfil
         </RedirectBtn>
